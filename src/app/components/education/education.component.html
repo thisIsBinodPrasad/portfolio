@@ -1,0 +1,23 @@
+<section id="education" class="education-section container">
+    <h2 class="section-title">Education</h2>
+    
+    <div class="timeline">
+      <div class="timeline-item" *ngFor="let edu of educationList; let i = index; let odd = odd">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content" [ngClass]="{'left': !odd, 'right': odd}">
+          <div class="content-card">
+            <div class="icon-box">
+              <mat-icon>{{edu.icon}}</mat-icon>
+            </div>
+            <div class="text-box">
+              <span class="year">{{edu.year}}</span>
+              <h3>{{edu.degree}}</h3>
+              <h4>{{edu.institution}}</h4>
+              <p>{{edu.description}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

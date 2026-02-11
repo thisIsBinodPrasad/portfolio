@@ -1,0 +1,40 @@
+/* Particle Background */
+main {
+    position: relative;
+    z-index: 1;
+}
+
+:host {
+    display: block;
+    position: relative;
+
+    &::before,
+    &::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    &::before {
+        background-image:
+            radial-gradient(circle at 10% 20%, rgba(20, 184, 166, 0.05) 0%, transparent 40%),
+            radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.05) 0%, transparent 40%);
+        animation: pulse 10s ease-in-out infinite alternate;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}

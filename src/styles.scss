@@ -1,0 +1,152 @@
+@use '@angular/material' as mat;
+
+// Define the custom dark theme
+$dark-primary: mat.m2-define-palette(mat.$m2-teal-palette, 500);
+$dark-accent: mat.m2-define-palette(mat.$m2-pink-palette, A200, A100, A400);
+
+$dark-theme: mat.m2-define-dark-theme((color: (primary: $dark-primary,
+        accent: $dark-accent,
+      ),
+      typography: mat.m2-define-typography-config($font-family: 'Inter, sans-serif',
+      )));
+
+// Include theme styles
+@include mat.core();
+@include mat.all-component-themes($dark-theme);
+
+:root {
+  --primary-color: #14b8a6;
+  /* Teal 500 */
+  --bg-color: #0f172a;
+  /* Slate 900 */
+  --surface-color: #1e293b;
+  /* Slate 800 */
+  --text-color: #f8fafc;
+  /* Slate 50 */
+  --text-muted: #94a3b8;
+  /* Slate 400 */
+  --accent-color: #ec4899;
+  /* Pink 500 */
+
+  --glass-bg: rgba(30, 41, 59, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.light-theme {
+  --bg-color: #f8fafc;
+  /* Slate 50 */
+  --surface-color: #ffffff;
+  /* White */
+  --text-color: #0f172a;
+  /* Slate 900 */
+  --text-muted: #64748b;
+  /* Slate 500 */
+
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+
+  .glass-card:hover {
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  /* Fix Material Buttons in Light Mode */
+  .mat-mdc-outlined-button:not(:disabled) {
+    border-color: rgba(0, 0, 0, 0.12) !important;
+    color: var(--text-color) !important;
+  }
+
+  .mat-mdc-button:not(:disabled) {
+    color: var(--primary-color) !important;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  overflow-x: hidden;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* Utility Classes */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section-padding {
+  padding: 80px 0;
+}
+
+.text-gradient {
+  background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--glass-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+
+/* Scroll Reveal Animations */
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Dialog Styles */
+.blur-backdrop {
+  backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.glass-dialog .mat-mdc-dialog-container .mat-mdc-dialog-surface {
+  background: transparent !important;
+  box-shadow: none !important;
+}
