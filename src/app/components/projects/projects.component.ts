@@ -27,13 +27,41 @@ import { ProjectDetailsDialogComponent } from '../project-details-dialog/project
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatChipsModule, MatIconModule, ScrollRevealDirective, MatDialogModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatChipsModule, MatIconModule, ScrollRevealDirective, MatDialogModule, TiltDirective],
   template: `
     <section id="projects" class="section-padding container">
       <h2 class="section-title">Featured Work <span class="dot">.</span></h2>
       
       <div class="featured-grid">
-        <!-- Featured Project 1: Koshex -->
+        <!-- Featured Project 1: Resume Master -->
+        <mat-card class="project-card featured glass-card" appScrollReveal appTilt>
+          <div class="project-image-wrapper">
+             <div class="project-preview-placeholder resume-master-bg">
+               <mat-icon>description</mat-icon>
+               <span>Resume Master</span>
+             </div>
+             <div class="overlay">
+               <button mat-fab extended color="accent" (click)="openProjectDetails(resumeMasterProject)">
+                 <mat-icon>visibility</mat-icon> Details
+               </button>
+               <a mat-fab extended color="primary" href="https://thisisbinodprasad.github.io/resumeMaster/" target="_blank">
+                 <mat-icon>open_in_new</mat-icon> Live Demo
+               </a>
+             </div>
+          </div>
+          <mat-card-content>
+            <div class="project-header">
+                <h3 class="highlight">Resume Master</h3>
+                <span class="role-badge">Angular • Signals • PDF.js</span>
+            </div>
+            <p>
+              A premium, "lively" resume builder with real-time preview, multiple templates, 
+              and ATS-optimized PDF export. Features a section-specific color identity system.
+            </p>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Featured Project 2: Koshex -->
         <mat-card class="project-card featured glass-card" appScrollReveal appTilt>
           <div class="project-image-wrapper">
              <img src="assets/images/koshex-preview.png" alt="Koshex Dashboard" class="project-img">
@@ -53,12 +81,12 @@ import { ProjectDetailsDialogComponent } from '../project-details-dialog/project
             </div>
             <p>
               An intuitive platform for managing mutual fund investments and savings. 
-              Features real-time portfolio tracking, goal-based investing tools, and personalized recommendations.
+              Features real-time portfolio tracking and goal-based investing tools.
             </p>
           </mat-card-content>
         </mat-card>
 
-        <!-- Featured Project 2: Flexflier -->
+        <!-- Featured Project 3: Flexflier -->
         <mat-card class="project-card featured glass-card" appScrollReveal appTilt>
           <div class="project-image-wrapper">
              <img src="assets/images/flexflier-preview.png" alt="Flexflier Website" class="project-img">
@@ -78,7 +106,7 @@ import { ProjectDetailsDialogComponent } from '../project-details-dialog/project
             </div>
             <p>
               A responsive web application for booking hotels, flights, and car rentals.
-              Designed for high performance and SEO best practices, resulting in improved visibility.
+              Designed for high performance and SEO best practices.
             </p>
           </mat-card-content>
         </mat-card>
@@ -288,6 +316,20 @@ import { ProjectDetailsDialogComponent } from '../project-details-dialog/project
   `]
 })
 export class ProjectsComponent {
+  resumeMasterProject: Project = {
+    title: 'Resume Master',
+    description: 'A premium, "lively" resume builder with real-time preview, multiple templates, and ATS-optimized PDF export. Built with Angular Signals for state management and features a color-coded editor workflow for enhanced UX.',
+    role: 'Angular • Signals • PDF.js',
+    tags: ['Angular', 'Signals', 'PDF.js', 'SCSS'],
+    link: 'https://thisisbinodprasad.github.io/resumeMaster/',
+    highlights: [
+      'Developed a real-time reactive preview using Angular Signals.',
+      'Implemented multiple professional templates (Modern, Classic, Student).',
+      'Engineered a color-coded section identification system in the editor.',
+      'Optimized PDF generation for 90+ ATS compatibility scores.'
+    ]
+  };
+
   koshexProject: Project = {
     title: 'Koshex',
     description: 'An intuitive platform for managing mutual fund investments and savings. Features real-time portfolio tracking, goal-based investing tools, and personalized recommendations. Integrated advanced data flows for seamless user experience.',
