@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/components/header/header.component.ts"],
+  "sourcesContent": ["\n    .navbar {\n      background: rgba(15, 23, 42, 0.8);\n      backdrop-filter: blur(12px);\n      position: fixed;\n      top: 0;\n      left: 0;\n      right: 0;\n      z-index: 1000;\n      border-bottom: 1px solid rgba(255,255,255,0.05);\n      padding: 0 20px;\n    }\n    .spacer { flex: 1; }\n    .logo {\n      font-weight: 700;\n      font-size: 1.5rem;\n      \n      .name { color: var(--text-color); }\n      .dot { color: var(--accent-color); }\n      .initial { color: var(--primary-color); }\n    }\n    .nav-links {\n      display: flex;\n      gap: 16px;\n      margin-right: 16px;\n      \n      @media (max-width: 768px) {\n        display: none; // TODO: Add mobile menu\n      }\n    }\n    a[mat-button] {\n      color: var(--text-color);\n      &:hover { color: var(--primary-color); }\n    }\n  "],
+  "mappings": ";AACI,CAAA;AACE,cAAA,KAAA,EAAA,EAAA,EAAA,EAAA,EAAA,EAAA;AACA,2BAAA,KAAA;AAAA,mBAAA,KAAA;AACA,YAAA;AACA,OAAA;AACA,QAAA;AACA,SAAA;AACA,WAAA;AACA,iBAAA,IAAA,MAAA,KAAA,GAAA,EAAA,GAAA,EAAA,GAAA,EAAA;AACA,WAAA,EAAA;;AAEF,CAAA;AAAU,QAAA;;AACV,CAAA;AACE,eAAA;AACA,aAAA;;AAEA,CAJF,KAIE,CAAA;AAAQ,SAAA,IAAA;;AACR,CALF,KAKE,CAAA;AAAO,SAAA,IAAA;;AACP,CANF,KAME,CAAA;AAAW,SAAA,IAAA;;AAEb,CAAA;AACE,WAAA;AACA,OAAA;AACA,gBAAA;;AAEA,QAAA,WAAA;AALF,GAAA;AAMI,aAAA;;;AAGJ,CAAA,CAAA;AACE,SAAA,IAAA;;AACA,CAAA,CAAA,WAAA;AAAU,SAAA,IAAA;;",
+  "names": []
+}
