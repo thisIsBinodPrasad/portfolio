@@ -31,6 +31,11 @@ $dark-theme: mat.m2-define-dark-theme((color: (primary: $dark-primary,
   --glass-bg: rgba(30, 41, 59, 0.7);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+
+  /* Custom Backgrounds for Cards & Dialogs (Dark Mode Default) */
+  --card-bg-custom: rgba(30, 41, 59, 0.4);
+  --card-bg-hover-custom: rgba(30, 41, 59, 0.6);
+  --dialog-bg-custom: rgba(23, 25, 35, 0.95);
 }
 
 .light-theme {
@@ -46,6 +51,12 @@ $dark-theme: mat.m2-define-dark-theme((color: (primary: $dark-primary,
   --glass-bg: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(0, 0, 0, 0.1);
   --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+
+  /* Custom Backgrounds for Cards & Dialogs (Light Mode Overlay) */
+  --card-bg-custom: #ffffff;
+  --card-bg-hover-custom: #f1f5f9;
+  /* Slate 100 */
+  --dialog-bg-custom: #ffffff;
 
   .glass-card:hover {
     border-color: rgba(0, 0, 0, 0.1);
@@ -77,9 +88,17 @@ body {
 
 /* Utility Classes */
 .container {
-  max-width: 1200px;
+  max-width: 1570px;
   margin: 0 auto;
   padding: 0 20px;
+
+  @media screen and (max-width: 1600px) {
+    padding: 0 40px;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 0 5%;
+  }
 }
 
 .section-padding {

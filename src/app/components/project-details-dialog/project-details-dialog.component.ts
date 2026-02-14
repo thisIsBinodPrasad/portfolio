@@ -7,10 +7,10 @@ import { MatChipsModule } from '@angular/material/chips';
 import { Project } from '../projects/projects.component';
 
 @Component({
-    selector: 'app-project-details-dialog',
-    standalone: true,
-    imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule, MatChipsModule],
-    template: `
+  selector: 'app-project-details-dialog',
+  standalone: true,
+  imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule, MatChipsModule],
+  template: `
     <div class="dialog-container glass-card">
       <div class="dialog-header">
         <h2 mat-dialog-title>
@@ -54,7 +54,7 @@ import { Project } from '../projects/projects.component';
       </mat-dialog-actions>
     </div>
   `,
-    styles: [`
+  styles: [`
     :host {
       display: block;
       max-width: 100vw;
@@ -68,7 +68,7 @@ import { Project } from '../projects/projects.component';
     }
 
     .dialog-container {
-      background: rgba(23, 25, 35, 0.95); /* Deep dark background */
+      background: var(--dialog-bg-custom); /* Deep dark background */
       backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 16px;
@@ -196,8 +196,8 @@ import { Project } from '../projects/projects.component';
   `]
 })
 export class ProjectDetailsDialogComponent {
-    constructor(
-        public dialogRef: MatDialogRef<ProjectDetailsDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: Project
-    ) { }
+  constructor(
+    public dialogRef: MatDialogRef<ProjectDetailsDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Project
+  ) { }
 }

@@ -213,7 +213,7 @@ import { ProjectDetailsDialogComponent } from '../project-details-dialog/project
 
     .compact-card {
       height: 100%;
-      background: rgba(30, 41, 59, 0.4) !important;
+      background: var(--card-bg-custom) !important;
       border-top: 4px solid transparent; // colored by binding
       display: flex;
       flex-direction: column;
@@ -221,7 +221,7 @@ import { ProjectDetailsDialogComponent } from '../project-details-dialog/project
       
       &:hover {
         transform: translateY(-5px);
-        background: rgba(30, 41, 59, 0.6) !important;
+        background: var(--card-bg-hover-custom) !important;
         box-shadow: 0 8px 24px rgba(0,0,0,0.25);
         
         .arrow-link .arrow-icon {
