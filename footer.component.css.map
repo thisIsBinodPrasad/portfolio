@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/components/footer/footer.component.ts"],
-  "sourcesContent": ["\n    .footer {\n      border-top: 1px solid rgba(255,255,255,0.05);\n      padding: 40px 0;\n      text-align: center;\n      color: var(--text-muted);\n      margin-top: 40px;\n      \n      p { margin: 0; font-size: 0.9rem; }\n    }\n  "],
-  "mappings": ";AACI,CAAA;AACE,cAAA,IAAA,MAAA,KAAA,GAAA,EAAA,GAAA,EAAA,GAAA,EAAA;AACA,WAAA,KAAA;AACA,cAAA;AACA,SAAA,IAAA;AACA,cAAA;;AAEA,CAPF,OAOE;AAAI,UAAA;AAAW,aAAA;;",
-  "names": []
-}

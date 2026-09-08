@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/app.scss"],
-  "sourcesContent": ["/* Particle Background */\r\nmain {\r\n    position: relative;\r\n    z-index: 1;\r\n}\r\n\r\n:host {\r\n    display: block;\r\n    position: relative;\r\n\r\n    &::before,\r\n    &::after {\r\n        content: '';\r\n        position: fixed;\r\n        top: 0;\r\n        left: 0;\r\n        width: 100%;\r\n        height: 100%;\r\n        pointer-events: none;\r\n        z-index: 0;\r\n    }\r\n\r\n    &::before {\r\n        background-image:\r\n            radial-gradient(circle at 10% 20%, rgba(20, 184, 166, 0.05) 0%, transparent 40%),\r\n            radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.05) 0%, transparent 40%);\r\n        animation: pulse 10s ease-in-out infinite alternate;\r\n    }\r\n}\r\n\r\n@keyframes pulse {\r\n    0% {\r\n        opacity: 0.5;\r\n    }\r\n\r\n    100% {\r\n        opacity: 1;\r\n        transform: scale(1.1);\r\n    }\r\n}"],
-  "mappings": ";AACA;AACI,YAAA;AACA,WAAA;;AAGJ;AACI,WAAA;AACA,YAAA;;AAEA,KAAA;AAAA,KAAA;AAEI,WAAA;AACA,YAAA;AACA,OAAA;AACA,QAAA;AACA,SAAA;AACA,UAAA;AACA,kBAAA;AACA,WAAA;;AAGJ,KAAA;AACI;IACI;MAAA,OAAA,GAAA,IAAA,GAAA;MAAA,KAAA,EAAA,EAAA,GAAA,EAAA,GAAA,EAAA,MAAA,EAAA;MAAA,YAAA,IAAA;IAAA;MAAA,OAAA,GAAA,IAAA,GAAA;MAAA,KAAA,GAAA,EAAA,EAAA,EAAA,GAAA,EAAA,MAAA,EAAA;MAAA,YAAA;AAEJ,aAAA,MAAA,IAAA,YAAA,SAAA;;AAIR,WAJQ;AAKJ;AACI,aAAA;;AAGJ;AACI,aAAA;AACA,eAAA,MAAA;;;",
-  "names": []
-}
