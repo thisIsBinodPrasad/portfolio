@@ -125,8 +125,9 @@ interface ChatMessage {
       <div class="chat-input-bar">
         <input 
           type="text" 
-          [(ngModel)]="userPrompt" 
-          (keyup.enter)="sendMessage()" 
+          [value]="userPrompt"
+          (input)="onInputChange($event)"
+          (keydown.enter)="sendMessage()" 
           placeholder="Ask anything about Binod's skills, experience, projects..."
           [disabled]="isThinking" />
         
@@ -142,12 +143,18 @@ interface ChatMessage {
     </div>
   `,
   styles: [`
+    :host {
+      display: block;
+      position: relative;
+      z-index: 99999;
+    }
+
     .ai-chat-trigger {
       position: fixed;
       bottom: 24px;
       right: 24px;
-      z-index: 1000;
-      box-shadow: 0 8px 30px rgba(20, 184, 166, 0.4);
+      z-index: 100000;
+      box-shadow: 0 8px 30px rgba(20, 184, 166, 0.5);
       transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 
       &:hover {
@@ -569,6 +576,13 @@ export class AiChatComponent implements OnInit {
     ];
   }
 
+  onInputChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    if (target) {
+      this.userPrompt = target.value;
+    }
+  }
+
   sendQuickPrompt(prompt: string): void {
     this.userPrompt = prompt;
     this.sendMessage();
@@ -600,7 +614,7 @@ export class AiChatComponent implements OnInit {
         });
         this.isThinking = false;
         setTimeout(() => this.scrollToBottom(), 100);
-      }, 750);
+      }, 500);
     }
   }
 
@@ -638,7 +652,11 @@ export class AiChatComponent implements OnInit {
   }
 
   private generateLocalAiResponse(query: string): string {
-    const q = query.toLowerCase();
+    const q = query.toLowerCase().trim();
+
+    if (q === 'hi' || q === 'hello' || q === 'hey' || q.startsWith('hi ') || q.startsWith('hello ')) {
+      return `👋 Hi there! I'm **Binod's Gemini AI Assistant**.\n\nI can answer any questions about Binod Prasad's resume, work at **Deloitte** & **IBM**, skills in **Angular / .NET / Python**, or projects like **ZigTravel** and **Resume Master**!`;
+    }
 
     if (q.includes('zigtravel') || q.includes('travel')) {
       return `🌟 **ZigTravel** is Binod's latest travel booking & itinerary exploration platform!\n\n` +
@@ -653,14 +671,14 @@ export class AiChatComponent implements OnInit {
         `• **Highlights**: Built with **Angular Signals** for reactive state, PDF.js for export, and section-specific color workflows.`;
     }
 
-    if (q.includes('skill') || q.includes('tech') || q.includes('stack')) {
+    if (q.includes('skill') || q.includes('tech') || q.includes('stack') || q.includes('languages') || q.includes('framework')) {
       return `⚡ **Binod's Technical Expertise**:\n\n` +
         `• **Frontend**: ${this.resumeKnowledge.skills.frontend.join(', ')}\n` +
         `• **Backend & Cloud**: ${this.resumeKnowledge.skills.backend.join(', ')}\n` +
         `• **Data Science & AI**: ${this.resumeKnowledge.skills.dataAi.join(', ')}`;
     }
 
-    if (q.includes('deloitte') || q.includes('ibm') || q.includes('experience') || q.includes('work') || q.includes('history') || q.includes('company')) {
+    if (q.includes('deloitte') || q.includes('ibm') || q.includes('experience') || q.includes('work') || q.includes('history') || q.includes('company') || q.includes('job') || q.includes('career')) {
       return `💼 **Binod's Work History Highlights**:\n\n` +
         `1. **Deloitte** (*Nov 2025 - Present*) – Consultant creating scalable Angular applications.\n` +
         `2. **IBM** (*July 2024 - Oct 2025*) – Application Developer (RxJS optimizations, IBM Cloud).\n` +
@@ -669,7 +687,7 @@ export class AiChatComponent implements OnInit {
         `5. **Gloify & Vidhikara** (*2020 - 2022*) – Angular & .NET Core RESTful APIs.`;
     }
 
-    if (q.includes('project') || q.includes('portfolio') || q.includes('work') || q.includes('built')) {
+    if (q.includes('project') || q.includes('portfolio') || q.includes('built') || q.includes('app')) {
       return `🚀 **Key Projects Built by Binod**:\n\n` +
         `• 🌴 **[ZigTravel](https://thisisbinodprasad.github.io/zigtravel/)**: Travel booking & trip curation app.\n` +
         `• 📜 **[Resume Master](https://thisisbinodprasad.github.io/resumeMaster/)**: ATS resume builder using Angular Signals.\n` +
@@ -677,18 +695,23 @@ export class AiChatComponent implements OnInit {
         `• ✈️ **[Flexflier](https://flexflier.com/home)**: Flight & hotel booking portal.`;
     }
 
-    if (q.includes('contact') || q.includes('email') || q.includes('hire') || q.includes('reach')) {
+    if (q.includes('education') || q.includes('degree') || q.includes('college') || q.includes('university') || q.includes('study')) {
+      return `🎓 **Education & Background**:\n\n` +
+        `Binod holds a degree in Computer Science / Engineering and has completed continuous certifications in Angular, Cloud Architecture, and Generative AI integrations.`;
+    }
+
+    if (q.includes('contact') || q.includes('email') || q.includes('hire') || q.includes('reach') || q.includes('phone') || q.includes('message')) {
       return `📬 **Get in Touch with Binod**:\n\n` +
         `• **GitHub**: [github.com/thisIsBinodPrasad](https://github.com/thisIsBinodPrasad)\n` +
         `• **Resume PDF**: Download directly from the hero header banner!\n` +
         `• Feel free to fill out the **Contact Form** at the bottom of the page!`;
     }
 
-    if (q.includes('who') || q.includes('about') || q.includes('binod')) {
+    if (q.includes('who') || q.includes('about') || q.includes('binod') || q.includes('summary') || q.includes('intro')) {
       return `👋 ${this.resumeKnowledge.bio}\n\nHe specializes in building high-performance web apps, reactive frontends with Angular Signals, and AI-driven solutions.`;
     }
 
-    return `I can help you explore Binod's experience! Here are quick things you can ask:\n` +
+    return `I can help you explore Binod's profile! Try asking:\n` +
       `• *"Tell me about ZigTravel"*\n` +
       `• *"What is his role at Deloitte?"*\n` +
       `• *"What tech stack does he use?"*\n` +
