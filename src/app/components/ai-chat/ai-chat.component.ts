@@ -1,10 +1,8 @@
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ElementRef, ViewChild, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 interface ChatMessage {
   sender: 'user' | 'ai';
@@ -20,27 +18,25 @@ interface ChatMessage {
     CommonModule,
     FormsModule,
     MatIconModule,
-    MatButtonModule,
-    MatInputModule,
-    MatTooltipModule
+    MatButtonModule
   ],
   template: `
-    <!-- Floating Trigger Button -->
-    <button 
-      class="ai-chat-trigger" 
-      [class.active]="isOpen"
-      (click)="toggleChat()" 
-      mat-fab 
-      color="primary"
-      matTooltip="Ask Gemini AI about Binod"
-      aria-label="Toggle AI Chat">
-      <mat-icon>{{ isOpen ? 'close' : 'smart_toy' }}</mat-icon>
+    <!-- Floating Trigger Button Container -->
+    <div class="ai-chat-trigger-wrapper">
+      <button 
+        type="button"
+        class="ai-chat-trigger-btn" 
+        [class.active]="isOpen"
+        (click)="toggleChat($event)" 
+        aria-label="Toggle AI Chat">
+        <mat-icon class="trigger-icon">{{ isOpen ? 'close' : 'smart_toy' }}</mat-icon>
+      </button>
       <span class="pulse-ring" *ngIf="!isOpen"></span>
-      <span class="badge" *ngIf="unreadCount > 0 && !isOpen">{{ unreadCount }}</span>
-    </button>
+      <span class="unread-badge" *ngIf="unreadCount > 0 && !isOpen">{{ unreadCount }}</span>
+    </div>
 
     <!-- Chat Drawer Modal -->
-    <div class="ai-chat-container glass-dialog-box" [class.open]="isOpen">
+    <div class="ai-chat-container" [class.open]="isOpen">
       <!-- Header -->
       <div class="chat-header">
         <div class="header-info">
@@ -50,18 +46,18 @@ interface ChatMessage {
           <div>
             <h3>Gemini AI Assistant</h3>
             <span class="status-text">
-              <span class="status-dot"></span> Binod's Resume & Portfolio Bot
+              <span class="status-dot"></span> Binod's Resume & Portfolio Assistant
             </span>
           </div>
         </div>
         <div class="header-actions">
-          <button mat-icon-button (click)="toggleSettings()" matTooltip="Gemini API Key Settings">
+          <button type="button" class="icon-btn" (click)="toggleSettings($event)" title="Settings">
             <mat-icon>settings</mat-icon>
           </button>
-          <button mat-icon-button (click)="clearChat()" matTooltip="Clear Chat">
+          <button type="button" class="icon-btn" (click)="clearChat($event)" title="Clear Chat">
             <mat-icon>delete_sweep</mat-icon>
           </button>
-          <button mat-icon-button (click)="toggleChat()" matTooltip="Close">
+          <button type="button" class="icon-btn" (click)="toggleChat($event)" title="Close">
             <mat-icon>close</mat-icon>
           </button>
         </div>
@@ -71,23 +67,29 @@ interface ChatMessage {
       <div class="settings-panel" *ngIf="showSettings">
         <div class="settings-content">
           <h4><mat-icon class="sm-icon">key</mat-icon> Gemini API Settings</h4>
-          <p>By default, Gemini AI answers using Binod's built-in resume knowledge engine. Optionally enter a custom Gemini API key for dynamic live generation:</p>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Gemini API Key (Optional)</mat-label>
-            <input matInput type="password" [(ngModel)]="customApiKey" placeholder="AIzaSy..." />
-          </mat-form-field>
+          <p>By default, Gemini AI answers using Binod's built-in resume knowledge engine. Optionally enter a custom Gemini API key for dynamic generation:</p>
+          <input 
+            type="password" 
+            class="custom-api-input"
+            [value]="customApiKey" 
+            (input)="customApiKey = $any($event.target).value"
+            placeholder="AIzaSy..." />
           <div class="settings-actions">
-            <button mat-flat-button color="primary" (click)="saveApiKey()">Save Key</button>
-            <button mat-button (click)="showSettings = false">Close</button>
+            <button type="button" class="action-btn primary" (click)="saveApiKey($event)">Save Key</button>
+            <button type="button" class="action-btn secondary" (click)="showSettings = false">Close</button>
           </div>
         </div>
       </div>
 
       <!-- Quick Prompt Pills -->
       <div class="quick-prompts">
-        <span class="prompt-chip" *ngFor="let prompt of quickPrompts" (click)="sendQuickPrompt(prompt)">
+        <button 
+          type="button" 
+          class="prompt-chip" 
+          *ngFor="let prompt of quickPrompts" 
+          (click)="sendQuickPrompt(prompt, $event)">
           {{ prompt }}
-        </span>
+        </button>
       </div>
 
       <!-- Messages Body -->
@@ -125,16 +127,17 @@ interface ChatMessage {
       <div class="chat-input-bar">
         <input 
           type="text" 
-          [value]="userPrompt"
+          class="chat-input"
+          [value]="userPrompt" 
           (input)="onInputChange($event)"
-          (keydown.enter)="sendMessage()" 
-          placeholder="Ask anything about Binod's skills, experience, projects..."
+          (keydown.enter)="sendMessage($event)" 
+          placeholder="Ask about Binod's Deloitte role, skills, projects..."
           [disabled]="isThinking" />
         
         <button 
-          mat-icon-button 
-          color="primary" 
-          (click)="sendMessage()" 
+          type="button"
+          class="send-btn" 
+          (click)="sendMessage($event)" 
           [disabled]="!userPrompt.trim() || isThinking"
           aria-label="Send message">
           <mat-icon>send</mat-icon>
@@ -145,50 +148,76 @@ interface ChatMessage {
   styles: [`
     :host {
       display: block;
-      position: relative;
-      z-index: 99999;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      z-index: 999999;
+      pointer-events: none;
     }
 
-    .ai-chat-trigger {
+    .ai-chat-trigger-wrapper {
       position: fixed;
       bottom: 24px;
       right: 24px;
-      z-index: 100000;
+      z-index: 1000000;
+      pointer-events: auto;
+    }
+
+    .ai-chat-trigger-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #14b8a6, #ec4899);
+      border: none;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
       box-shadow: 0 8px 30px rgba(20, 184, 166, 0.5);
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: transform 0.3s ease, background 0.3s ease;
+      outline: none;
 
       &:hover {
         transform: scale(1.1) rotate(5deg);
       }
 
       &.active {
-        background-color: var(--accent-color) !important;
+        background: linear-gradient(135deg, #ec4899, #f43f5e);
       }
 
-      .pulse-ring {
-        position: absolute;
-        inset: -4px;
-        border-radius: 50%;
-        border: 2px solid var(--primary-color);
-        animation: pulseEffect 2s infinite;
+      .trigger-icon {
+        font-size: 28px;
+        width: 28px;
+        height: 28px;
       }
+    }
 
-      .badge {
-        position: absolute;
-        top: -4px;
-        right: -4px;
-        background: var(--accent-color);
-        color: white;
-        font-size: 11px;
-        font-weight: 700;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 2px solid var(--surface-color);
-      }
+    .pulse-ring {
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px solid #14b8a6;
+      animation: pulseEffect 2s infinite;
+      pointer-events: none;
+    }
+
+    .unread-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: #f43f5e;
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #0f172a;
+      pointer-events: none;
     }
 
     @keyframes pulseEffect {
@@ -200,24 +229,23 @@ interface ChatMessage {
       position: fixed;
       bottom: 96px;
       right: 24px;
-      width: 400px;
-      height: 580px;
+      width: 420px;
+      height: 590px;
       max-width: calc(100vw - 32px);
       max-height: calc(100vh - 120px);
-      background: rgba(15, 23, 42, 0.92);
+      background: rgba(15, 23, 42, 0.95);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(20, 184, 166, 0.15);
-      z-index: 999;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(20, 184, 166, 0.2);
       display: flex;
       flex-direction: column;
       overflow: hidden;
       opacity: 0;
       pointer-events: none;
       transform: translateY(20px) scale(0.95);
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 0.3s ease, transform 0.3s ease;
 
       &.open {
         opacity: 1;
@@ -231,7 +259,7 @@ interface ChatMessage {
       align-items: center;
       justify-content: space-between;
       padding: 14px 18px;
-      background: rgba(30, 41, 59, 0.8);
+      background: rgba(30, 41, 59, 0.9);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 
       .header-info {
@@ -243,12 +271,11 @@ interface ChatMessage {
           width: 38px;
           height: 38px;
           border-radius: 12px;
-          background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+          background: linear-gradient(135deg, #14b8a6, #ec4899);
           display: flex;
           align-items: center;
           justify-content: center;
           color: white;
-          box-shadow: 0 4px 12px rgba(20, 184, 166, 0.3);
 
           mat-icon { font-size: 20px; width: 20px; height: 20px; }
         }
@@ -257,12 +284,12 @@ interface ChatMessage {
           margin: 0;
           font-size: 1rem;
           font-weight: 700;
-          color: var(--text-color);
+          color: #f8fafc;
         }
 
         .status-text {
           font-size: 0.75rem;
-          color: var(--text-muted);
+          color: #94a3b8;
           display: flex;
           align-items: center;
           gap: 6px;
@@ -279,16 +306,33 @@ interface ChatMessage {
 
       .header-actions {
         display: flex;
-        gap: 2px;
-        button { color: var(--text-muted); }
+        gap: 4px;
+
+        .icon-btn {
+          background: transparent;
+          border: none;
+          color: #94a3b8;
+          cursor: pointer;
+          padding: 6px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &:hover {
+            color: #f8fafc;
+            background: rgba(255, 255, 255, 0.1);
+          }
+
+          mat-icon { font-size: 18px; width: 18px; height: 18px; }
+        }
       }
     }
 
     .settings-panel {
-      background: rgba(30, 41, 59, 0.95);
+      background: rgba(30, 41, 59, 0.98);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       padding: 16px;
-      animation: fadeIn 0.2s ease;
 
       h4 {
         margin: 0 0 8px;
@@ -296,22 +340,53 @@ interface ChatMessage {
         display: flex;
         align-items: center;
         gap: 6px;
-        color: var(--primary-color);
+        color: #14b8a6;
       }
 
       p {
         font-size: 0.8rem;
-        color: var(--text-muted);
+        color: #94a3b8;
         margin-bottom: 12px;
         line-height: 1.4;
       }
 
-      .full-width { width: 100%; }
+      .custom-api-input {
+        width: 100%;
+        box-sizing: border-box;
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+        padding: 8px 12px;
+        color: white;
+        font-size: 0.85rem;
+        outline: none;
+        margin-bottom: 12px;
+
+        &:focus { border-color: #14b8a6; }
+      }
 
       .settings-actions {
         display: flex;
         justify-content: flex-end;
         gap: 8px;
+
+        .action-btn {
+          padding: 6px 14px;
+          border-radius: 6px;
+          font-size: 0.8rem;
+          cursor: pointer;
+          border: none;
+
+          &.primary {
+            background: #14b8a6;
+            color: white;
+          }
+
+          &.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #94a3b8;
+          }
+        }
       }
     }
 
@@ -332,14 +407,15 @@ interface ChatMessage {
         background: rgba(255, 255, 255, 0.06);
         border: 1px solid rgba(255, 255, 255, 0.12);
         border-radius: 16px;
-        color: var(--text-muted);
+        color: #94a3b8;
         cursor: pointer;
+        outline: none;
         transition: all 0.2s ease;
 
         &:hover {
           background: rgba(20, 184, 166, 0.2);
-          border-color: var(--primary-color);
-          color: var(--text-color);
+          border-color: #14b8a6;
+          color: white;
         }
       }
     }
@@ -363,7 +439,7 @@ interface ChatMessage {
         flex-direction: row-reverse;
 
         .msg-content {
-          background: linear-gradient(135deg, var(--primary-color), #0d9488);
+          background: linear-gradient(135deg, #14b8a6, #0d9488);
           color: white;
           border-radius: 16px 16px 2px 16px;
         }
@@ -379,20 +455,20 @@ interface ChatMessage {
           height: 28px;
           border-radius: 8px;
           background: rgba(236, 72, 153, 0.2);
-          border: 1px solid var(--accent-color);
+          border: 1px solid #ec4899;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: var(--accent-color);
+          color: #ec4899;
           flex-shrink: 0;
 
           mat-icon { font-size: 16px; width: 16px; height: 16px; }
         }
 
         .msg-content {
-          background: rgba(30, 41, 59, 0.75);
+          background: rgba(30, 41, 59, 0.85);
           border: 1px solid rgba(255, 255, 255, 0.08);
-          color: var(--text-color);
+          color: #f8fafc;
           border-radius: 16px 16px 16px 2px;
         }
       }
@@ -409,7 +485,7 @@ interface ChatMessage {
         ::ng-deep a {
           color: #38bdf8;
           text-decoration: underline;
-          &:hover { color: var(--accent-color); }
+          &:hover { color: #ec4899; }
         }
 
         ::ng-deep code {
@@ -424,7 +500,7 @@ interface ChatMessage {
       .msg-time {
         display: block;
         font-size: 0.68rem;
-        color: var(--text-muted);
+        color: #94a3b8;
         margin-top: 4px;
         text-align: right;
       }
@@ -440,7 +516,7 @@ interface ChatMessage {
         width: 6px;
         height: 6px;
         border-radius: 50%;
-        background-color: var(--primary-color);
+        background-color: #14b8a6;
         animation: typingBounce 1.4s infinite ease-in-out both;
 
         &:nth-child(1) { animation-delay: -0.32s; }
@@ -457,28 +533,50 @@ interface ChatMessage {
       display: flex;
       align-items: center;
       padding: 10px 14px;
-      background: rgba(15, 23, 42, 0.95);
+      background: rgba(15, 23, 42, 0.98);
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       gap: 8px;
 
-      input {
+      .chat-input {
         flex: 1;
         background: rgba(30, 41, 59, 0.8);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.15);
         border-radius: 20px;
         padding: 10px 16px;
-        color: var(--text-color);
+        color: white;
         font-size: 0.88rem;
         outline: none;
-        transition: border-color 0.2s;
+        box-sizing: border-box;
 
         &:focus {
-          border-color: var(--primary-color);
+          border-color: #14b8a6;
         }
 
         &::placeholder {
-          color: var(--text-muted);
+          color: #94a3b8;
         }
+      }
+
+      .send-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #14b8a6;
+        border: none;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        outline: none;
+
+        &:disabled {
+          background: rgba(255, 255, 255, 0.1);
+          color: #64748b;
+          cursor: not-allowed;
+        }
+
+        mat-icon { font-size: 18px; width: 18px; height: 18px; }
       }
     }
 
@@ -536,14 +634,20 @@ export class AiChatComponent implements OnInit {
     contact: "Email: available on resume | GitHub: github.com/thisIsBinodPrasad | Resume: assets/Prasad_BinodCV.pdf"
   };
 
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
   ngOnInit(): void {
-    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+    if (isPlatformBrowser(this.platformId) && typeof localStorage !== 'undefined') {
       const savedKey = localStorage.getItem('gemini_api_key');
       if (savedKey) this.customApiKey = savedKey;
     }
   }
 
-  toggleChat(): void {
+  toggleChat(event?: Event): void {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
     this.isOpen = !this.isOpen;
     if (this.isOpen) {
       this.unreadCount = 0;
@@ -551,12 +655,20 @@ export class AiChatComponent implements OnInit {
     }
   }
 
-  toggleSettings(): void {
+  toggleSettings(event?: Event): void {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
     this.showSettings = !this.showSettings;
   }
 
-  saveApiKey(): void {
-    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+  saveApiKey(event?: Event): void {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    if (isPlatformBrowser(this.platformId) && typeof localStorage !== 'undefined') {
       if (this.customApiKey.trim()) {
         localStorage.setItem('gemini_api_key', this.customApiKey.trim());
       } else {
@@ -566,7 +678,11 @@ export class AiChatComponent implements OnInit {
     this.showSettings = false;
   }
 
-  clearChat(): void {
+  clearChat(event?: Event): void {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
     this.messages = [
       {
         sender: 'ai',
@@ -583,12 +699,21 @@ export class AiChatComponent implements OnInit {
     }
   }
 
-  sendQuickPrompt(prompt: string): void {
-    this.userPrompt = prompt;
+  sendQuickPrompt(promptText: string, event?: Event): void {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    this.userPrompt = promptText;
     this.sendMessage();
   }
 
-  sendMessage(): void {
+  sendMessage(event?: Event): void {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
     const query = this.userPrompt.trim();
     if (!query || this.isThinking) return;
 
@@ -614,7 +739,7 @@ export class AiChatComponent implements OnInit {
         });
         this.isThinking = false;
         setTimeout(() => this.scrollToBottom(), 100);
-      }, 500);
+      }, 400);
     }
   }
 
@@ -724,19 +849,13 @@ export class AiChatComponent implements OnInit {
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
 
-    // Links [text](url)
     formatted = formatted.replace(
       /\[([^\]]+)\]\(([^)]+)\)/g,
       '<a href="$2" target="_blank" rel="noopener">$1</a>'
     );
 
-    // Bold **text**
     formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-
-    // Italic *text*
     formatted = formatted.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-
-    // Line breaks
     formatted = formatted.replace(/\n/g, '<br>');
 
     return formatted;
