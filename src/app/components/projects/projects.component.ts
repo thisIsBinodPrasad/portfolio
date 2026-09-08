@@ -33,7 +33,35 @@ import { ProjectDetailsDialogComponent } from '../project-details-dialog/project
       <h2 class="section-title">Featured Work <span class="dot">.</span></h2>
       
       <div class="featured-grid">
-        <!-- Featured Project 1: Resume Master -->
+        <!-- Featured Project 1: ZigTravel -->
+        <mat-card class="project-card featured glass-card zigtravel-card" appScrollReveal appTilt>
+          <div class="project-image-wrapper">
+             <div class="project-preview-placeholder zigtravel-bg">
+               <mat-icon>flight_takeoff</mat-icon>
+               <span>ZigTravel</span>
+             </div>
+             <div class="overlay">
+               <button mat-fab extended color="accent" (click)="openProjectDetails(zigTravelProject)">
+                 <mat-icon>visibility</mat-icon> Details
+               </button>
+               <a mat-fab extended color="primary" href="https://thisisbinodprasad.github.io/zigtravel/" target="_blank">
+                 <mat-icon>open_in_new</mat-icon> Live Demo
+               </a>
+             </div>
+          </div>
+          <mat-card-content>
+            <div class="project-header">
+                <h3 class="highlight">ZigTravel <span class="new-badge">NEW</span></h3>
+                <span class="role-badge">Angular • Travel Tech • Responsive</span>
+            </div>
+            <p>
+              A modern, dynamic travel booking & itinerary curation platform featuring 
+              interactive trip discovery, destination filtering, and sleek responsive UI.
+            </p>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Featured Project 2: Resume Master -->
         <mat-card class="project-card featured glass-card" appScrollReveal appTilt>
           <div class="project-image-wrapper">
              <div class="project-preview-placeholder resume-master-bg">
@@ -61,7 +89,7 @@ import { ProjectDetailsDialogComponent } from '../project-details-dialog/project
           </mat-card-content>
         </mat-card>
 
-        <!-- Featured Project 2: Koshex -->
+        <!-- Featured Project 3: Koshex -->
         <mat-card class="project-card featured glass-card" appScrollReveal appTilt>
           <div class="project-image-wrapper">
              <img src="assets/images/koshex-preview.png" alt="Koshex Dashboard" class="project-img">
@@ -86,7 +114,7 @@ import { ProjectDetailsDialogComponent } from '../project-details-dialog/project
           </mat-card-content>
         </mat-card>
 
-        <!-- Featured Project 3: Flexflier -->
+        <!-- Featured Project 4: Flexflier -->
         <mat-card class="project-card featured glass-card" appScrollReveal appTilt>
           <div class="project-image-wrapper">
              <img src="assets/images/flexflier-preview.png" alt="Flexflier Website" class="project-img">
@@ -313,9 +341,58 @@ import { ProjectDetailsDialogComponent } from '../project-details-dialog/project
             color: var(--primary-color);
         }
     }
+
+    .project-preview-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: white;
+
+      mat-icon { font-size: 48px; width: 48px; height: 48px; }
+    }
+
+    .zigtravel-bg {
+      background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 50%, #0369a1 100%);
+    }
+
+    .resume-master-bg {
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #4338ca 100%);
+    }
+
+    .new-badge {
+      font-size: 0.7rem;
+      background: linear-gradient(135deg, var(--accent-color), #f43f5e);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+      vertical-align: middle;
+      margin-left: 6px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
   `]
 })
 export class ProjectsComponent {
+  zigTravelProject: Project = {
+    title: 'ZigTravel',
+    description: 'A modern, dynamic travel booking and itinerary curation web application. Features interactive trip discovery, destination filtering, high-performance responsive UI, and seamless booking workflows.',
+    role: 'Angular • Travel Tech • Responsive',
+    tags: ['Angular', 'TypeScript', 'Travel Tech', 'SCSS', 'UX'],
+    link: 'https://thisisbinodprasad.github.io/zigtravel/',
+    highlights: [
+      'Engineered interactive destination discovery and travel itinerary workflows.',
+      'Designed responsive UI components optimized for high performance and speed.',
+      'Integrated real-time trip booking flows and dynamic search filters.',
+      'Achieved seamless cross-device compatibility and modern travel UX.'
+    ]
+  };
+
   resumeMasterProject: Project = {
     title: 'Resume Master',
     description: 'A premium, "lively" resume builder with real-time preview, multiple templates, and ATS-optimized PDF export. Built with Angular Signals for state management and features a color-coded editor workflow for enhanced UX.',
