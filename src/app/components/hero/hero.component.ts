@@ -13,7 +13,7 @@ import { TypingEffectDirective } from '../../directives/typing-effect.directive'
     <section class="hero-section container">
       <div class="content">
         <div class="role-chip">
-          <span class="status-dot"></span> Available for Senior Angular & Full Stack Roles
+          <span class="status-dot"></span> SDE 2 @ Deloitte · Open to Collaborations
         </div>
         <h1 class="greeting">Hi, I'm <span class="text-gradient">Binod Prasad</span></h1>
         <h2 class="subtitle">
@@ -21,7 +21,7 @@ import { TypingEffectDirective } from '../../directives/typing-effect.directive'
         </h2>
         <p class="bio">
           I build high-performance web applications using Angular, .NET Core, Python, and Node.js. 
-          Currently transforming digital experiences as a Consultant at Deloitte.
+          Currently transforming digital experiences as an SDE 2 at Deloitte.
         </p>
 
         <!-- Quick Stats Grid -->

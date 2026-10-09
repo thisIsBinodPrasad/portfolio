@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
     template: `
     <footer class="footer">
       <div class="container">
-        <p>© 2026 Binod Prasad. Built with Angular 19 & Material.</p>
+        <p>© 2026 Binod Prasad. Built with Angular 21 & Material.</p>
       </div>
     </footer>
   `,

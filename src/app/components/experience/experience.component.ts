@@ -11,14 +11,19 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
   template: `
     <section id="experience" class="section-padding container">
       <h2 class="section-title">Experience <span class="dot">.</span></h2>
-      
+
       <div class="timeline">
         @for (job of jobs; track job.company) {
           <div class="timeline-item" appScrollReveal>
-            <div class="timeline-marker"></div>
-            <div class="timeline-content glass-card">
+            <div class="timeline-marker" [class.current]="job.current"></div>
+            <div class="timeline-content glass-card" [class.current-role]="job.current">
               <div class="header">
-                <h3>{{ job.role }}</h3>
+                <div class="role-row">
+                  <h3>{{ job.role }}</h3>
+                  @if (job.current) {
+                    <span class="current-badge">● Current</span>
+                  }
+                </div>
                 <span class="company">{{ job.company }}</span>
                 <span class="period">{{ job.period }}</span>
               </div>
@@ -95,13 +100,37 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
 
     .timeline-content {
       padding: 24px;
-      
+
+      &.current-role {
+        border-color: rgba(20, 184, 166, 0.4);
+        background: rgba(20, 184, 166, 0.05);
+      }
+
       .header {
         margin-bottom: 16px;
         border-bottom: 1px solid rgba(255,255,255,0.05);
         padding-bottom: 12px;
-        
+
+        .role-row {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
         h3 { margin: 0; color: var(--text-color); font-size: 1.25rem; }
+
+        .current-badge {
+          font-size: 0.72rem;
+          font-weight: 700;
+          color: #22c55e;
+          background: rgba(34, 197, 94, 0.12);
+          border: 1px solid rgba(34, 197, 94, 0.3);
+          padding: 2px 10px;
+          border-radius: 12px;
+          letter-spacing: 0.5px;
+        }
+
         .company { display: block; color: var(--primary-color); font-weight: 500; margin-top: 4px; }
         .period { display: block; font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
       }
@@ -116,15 +145,16 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
   `]
 })
 export class ExperienceComponent {
-  jobs = [
+  jobs: { role: string; company: string; period: string; points: string[]; current?: boolean }[] = [
     {
-      role: 'Consultant',
+      role: 'SDE 2',
       company: 'Deloitte',
       period: 'Nov 2025 – Present',
+      current: true,
       points: [
-        'Building scalable Angular components for dynamic web apps.',
-        'Improving sprint deliverables through Agile practices.',
-        'Deploying optimized Angular solutions.'
+        'Leading Angular architecture for enterprise-scale web applications.',
+        'Driving sprint deliverables and technical decisions through Agile practices.',
+        'Mentoring junior developers and establishing frontend best practices.'
       ]
     },
     {

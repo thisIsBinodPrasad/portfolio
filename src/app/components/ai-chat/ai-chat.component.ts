@@ -23,11 +23,11 @@ interface ChatMessage {
   template: `
     <!-- Floating Trigger Button Container -->
     <div class="ai-chat-trigger-wrapper">
-      <button 
+      <button
         type="button"
-        class="ai-chat-trigger-btn" 
+        class="ai-chat-trigger-btn"
         [class.active]="isOpen"
-        (click)="toggleChat($event)" 
+        (click)="toggleChat($event)"
         aria-label="Toggle AI Chat">
         <mat-icon class="trigger-icon">{{ isOpen ? 'close' : 'smart_toy' }}</mat-icon>
       </button>
@@ -41,18 +41,19 @@ interface ChatMessage {
       <div class="chat-header">
         <div class="header-info">
           <div class="ai-avatar">
-            <mat-icon>auto_awesome</mat-icon>
+            <mat-icon>psychology</mat-icon>
           </div>
           <div>
-            <h3>Gemini AI Assistant</h3>
+            <h3>Claude AI Assistant</h3>
             <span class="status-text">
-              <span class="status-dot"></span> Binod's Resume & Portfolio Assistant
+              <span class="status-dot"></span>
+              {{ claudeApiKey ? 'Powered by Claude API' : "Binod's Resume Assistant" }}
             </span>
           </div>
         </div>
         <div class="header-actions">
-          <button type="button" class="icon-btn" (click)="toggleSettings($event)" title="Settings">
-            <mat-icon>settings</mat-icon>
+          <button type="button" class="icon-btn" (click)="toggleSettings($event)" title="API Settings">
+            <mat-icon>key</mat-icon>
           </button>
           <button type="button" class="icon-btn" (click)="clearChat($event)" title="Clear Chat">
             <mat-icon>delete_sweep</mat-icon>
@@ -66,14 +67,14 @@ interface ChatMessage {
       <!-- Settings Sub-panel -->
       <div class="settings-panel" *ngIf="showSettings">
         <div class="settings-content">
-          <h4><mat-icon class="sm-icon">key</mat-icon> Gemini API Settings</h4>
-          <p>By default, Gemini AI answers using Binod's built-in resume knowledge engine. Optionally enter a custom Gemini API key for dynamic generation:</p>
-          <input 
-            type="password" 
+          <h4><mat-icon class="sm-icon">psychology</mat-icon> Claude API Settings</h4>
+          <p>Enter your Anthropic API key to enable intelligent, dynamic responses powered by Claude AI:</p>
+          <input
+            type="password"
             class="custom-api-input"
-            [value]="customApiKey" 
-            (input)="customApiKey = $any($event.target).value"
-            placeholder="AIzaSy..." />
+            [value]="claudeApiKey"
+            (input)="claudeApiKey = $any($event.target).value"
+            placeholder="sk-ant-api03-..." />
           <div class="settings-actions">
             <button type="button" class="action-btn primary" (click)="saveApiKey($event)">Save Key</button>
             <button type="button" class="action-btn secondary" (click)="showSettings = false">Close</button>
@@ -83,10 +84,10 @@ interface ChatMessage {
 
       <!-- Quick Prompt Pills -->
       <div class="quick-prompts">
-        <button 
-          type="button" 
-          class="prompt-chip" 
-          *ngFor="let prompt of quickPrompts" 
+        <button
+          type="button"
+          class="prompt-chip"
+          *ngFor="let prompt of quickPrompts"
           (click)="sendQuickPrompt(prompt, $event)">
           {{ prompt }}
         </button>
@@ -94,14 +95,14 @@ interface ChatMessage {
 
       <!-- Messages Body -->
       <div class="chat-messages" #scrollContainer>
-        <div 
-          *ngFor="let msg of messages" 
-          class="message-bubble" 
+        <div
+          *ngFor="let msg of messages"
+          class="message-bubble"
           [class.user-msg]="msg.sender === 'user'"
           [class.ai-msg]="msg.sender === 'ai'">
-          
+
           <div class="msg-avatar" *ngIf="msg.sender === 'ai'">
-            <mat-icon>auto_awesome</mat-icon>
+            <mat-icon>psychology</mat-icon>
           </div>
 
           <div class="msg-content">
@@ -113,7 +114,7 @@ interface ChatMessage {
         <!-- Typing Indicator -->
         <div class="message-bubble ai-msg" *ngIf="isThinking">
           <div class="msg-avatar">
-            <mat-icon>auto_awesome</mat-icon>
+            <mat-icon>psychology</mat-icon>
           </div>
           <div class="msg-content thinking-box">
             <span class="typing-dot"></span>
@@ -125,19 +126,19 @@ interface ChatMessage {
 
       <!-- Input Bar -->
       <div class="chat-input-bar">
-        <input 
-          type="text" 
+        <input
+          type="text"
           class="chat-input"
-          [value]="userPrompt" 
+          [value]="userPrompt"
           (input)="onInputChange($event)"
-          (keydown.enter)="sendMessage($event)" 
-          placeholder="Ask about Binod's Deloitte role, skills, projects..."
+          (keydown.enter)="sendMessage($event)"
+          placeholder="Ask about Binod's SDE 2 role, skills, projects..."
           [disabled]="isThinking" />
-        
-        <button 
+
+        <button
           type="button"
-          class="send-btn" 
-          (click)="sendMessage($event)" 
+          class="send-btn"
+          (click)="sendMessage($event)"
           [disabled]="!userPrompt.trim() || isThinking"
           aria-label="Send message">
           <mat-icon>send</mat-icon>
@@ -591,7 +592,7 @@ export class AiChatComponent implements OnInit {
   unreadCount = 1;
   userPrompt = '';
   isThinking = false;
-  customApiKey = '';
+  claudeApiKey = '';
 
   quickPrompts = [
     'Tell me about Binod',
@@ -604,16 +605,16 @@ export class AiChatComponent implements OnInit {
   messages: ChatMessage[] = [
     {
       sender: 'ai',
-      text: "👋 Hi! I'm **Binod's Gemini AI Assistant**. Ask me anything about his experience at **Deloitte** & **IBM**, his skills in **Angular / .NET / Python**, or projects like **ZigTravel** and **Resume Master**!",
+      text: "👋 Hi! I'm **Binod's Claude AI Assistant**. Ask me anything about his experience as **SDE 2 at Deloitte**, his skills in **Angular / .NET / Python**, or projects like **ZigTravel** and **Resume Master**!",
       timestamp: this.getCurrentTime()
     }
   ];
 
   private resumeKnowledge = {
-    bio: "Binod Prasad is a Full Stack Developer & Gen AI Enthusiast with 5+ years of experience building scalable web solutions using Angular, TypeScript, .NET Core, Python, and Node.js. Currently working as a Consultant at Deloitte.",
-    currentRole: "Consultant at Deloitte (since Nov 2025), working on scalable Angular web applications and Agile delivery.",
+    bio: "Binod Prasad is a Full Stack Developer & Gen AI Enthusiast with 5+ years of experience building scalable web solutions using Angular, TypeScript, .NET Core, Python, and Node.js. Currently working as an SDE 2 at Deloitte.",
+    currentRole: "SDE 2 at Deloitte (since Nov 2025), leading Angular architecture for enterprise-scale web applications and mentoring junior developers.",
     experience: [
-      { role: "Consultant", company: "Deloitte", period: "Nov 2025 – Present", description: "Building scalable Angular components for dynamic web apps and optimizing sprint deliverables." },
+      { role: "SDE 2", company: "Deloitte", period: "Nov 2025 – Present", description: "Leading Angular architecture for enterprise-scale web apps, driving sprint deliverables, and mentoring junior developers." },
       { role: "Application Developer", company: "IBM", period: "July 2024 – Oct 2025", description: "Designed mentor search functionality using RxJS, reducing latency; integrated Angular with IBM Cloud services and Node.js services." },
       { role: "Freelance Software Engineer", company: "Remote", period: "Nov 2023 – June 2024", description: "Developed multi-service booking platform and British Railways maintenance scheduling platform using .NET Core." },
       { role: "Software Engineer", company: "Anicca Data Science Solutions", period: "Nov 2022 – Oct 2023", description: "Engineered real-time inventory dashboards using Angular and automated forecasting DAGs with Python & Pandas." },
@@ -627,19 +628,23 @@ export class AiChatComponent implements OnInit {
       { name: "Flexflier", url: "https://flexflier.com/home", desc: "High performance hotel, flight, and car booking engine." }
     ],
     skills: {
-      frontend: ["Angular", "TypeScript", "JavaScript", "RxJS", "Angular Signals", "HTML5/CSS3/SCSS"],
-      backend: ["Node.js", ".NET Core", "C#", "SQL", "IBM Cloud", "REST APIs"],
-      dataAi: ["Python", "Pandas", "Machine Learning", "Gen AI Integration"]
+      frontend: ["Angular (95%)", "TypeScript (90%)", "JavaScript (92%)", "RxJS / NgRx (88%)", "HTML5/CSS3/SCSS (90%)"],
+      backend: [".NET Core / C# (85%)", "Node.js (80%)", "REST APIs (92%)", "SQL (82%)", "IBM Cloud (75%)"],
+      dataAi: ["Python (80%)", "Pandas / NumPy (78%)", "Machine Learning (72%)", "Gen AI Integration (82%)"]
     },
-    contact: "Email: available on resume | GitHub: github.com/thisIsBinodPrasad | Resume: assets/Prasad_BinodCV.pdf"
+    education: [
+      { degree: "PG Certificate in Data Science", institution: "IIT Roorkee", period: "Dec 2021 – Dec 2022" },
+      { degree: "B.Tech in Computer Science", institution: "THDC Institute of Hydropower Engineering and Technology", period: "July 2014 – Aug 2018" }
+    ],
+    contact: "Email: prasadbinod490@gmail.com | LinkedIn: linkedin.com/in/binod-prasad-0aa73714a | GitHub: github.com/thisIsBinodPrasad | Resume: assets/Prasad_BinodCV.pdf"
   };
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId) && typeof localStorage !== 'undefined') {
-      const savedKey = localStorage.getItem('gemini_api_key');
-      if (savedKey) this.customApiKey = savedKey;
+      const savedKey = localStorage.getItem('claude_api_key');
+      if (savedKey) this.claudeApiKey = savedKey;
     }
   }
 
@@ -669,10 +674,10 @@ export class AiChatComponent implements OnInit {
       event.stopPropagation();
     }
     if (isPlatformBrowser(this.platformId) && typeof localStorage !== 'undefined') {
-      if (this.customApiKey.trim()) {
-        localStorage.setItem('gemini_api_key', this.customApiKey.trim());
+      if (this.claudeApiKey.trim()) {
+        localStorage.setItem('claude_api_key', this.claudeApiKey.trim());
       } else {
-        localStorage.removeItem('gemini_api_key');
+        localStorage.removeItem('claude_api_key');
       }
     }
     this.showSettings = false;
@@ -727,8 +732,8 @@ export class AiChatComponent implements OnInit {
     this.isThinking = true;
     setTimeout(() => this.scrollToBottom(), 50);
 
-    if (this.customApiKey) {
-      this.callGeminiApi(query);
+    if (this.claudeApiKey) {
+      this.callClaudeApi(query);
     } else {
       setTimeout(() => {
         const responseText = this.generateLocalAiResponse(query);
@@ -743,31 +748,47 @@ export class AiChatComponent implements OnInit {
     }
   }
 
-  private async callGeminiApi(userQuery: string): Promise<void> {
+  private async callClaudeApi(userQuery: string): Promise<void> {
     try {
-      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${this.customApiKey}`;
-      const systemInstruction = `You are Binod Prasad's AI portfolio representative. Answer concisely, professionally, and enthusiastically using this background: ${JSON.stringify(this.resumeKnowledge)}. Format key points with markdown bullet points and markdown links.`;
+      const systemInstruction = `You are Binod Prasad's AI portfolio assistant. Answer questions concisely, professionally, and enthusiastically based on this resume data: ${JSON.stringify(this.resumeKnowledge)}. Format responses with markdown: use **bold** for emphasis, bullet points with •, and [text](url) for links. Keep answers focused and under 200 words unless a detailed breakdown is requested.`;
 
-      const response = await fetch(endpoint, {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': this.claudeApiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: `${systemInstruction}\n\nUser Question: ${userQuery}` }] }]
+          model: 'claude-haiku-5-5',
+          max_tokens: 512,
+          system: systemInstruction,
+          messages: [{ role: 'user', content: userQuery }]
         })
       });
 
       const data = await response.json();
-      const aiText = data?.candidates?.[0]?.content?.parts?.[0]?.text || this.generateLocalAiResponse(userQuery);
+
+      if (!response.ok) {
+        throw new Error(data?.error?.message || 'Claude API error');
+      }
+
+      const aiText = data?.content?.[0]?.text || this.generateLocalAiResponse(userQuery);
 
       this.messages.push({
         sender: 'ai',
         text: aiText,
         timestamp: this.getCurrentTime()
       });
-    } catch {
+    } catch (err: any) {
+      const errorMsg = err?.message?.includes('invalid x-api-key')
+        ? '⚠️ Invalid API key. Please check your Anthropic API key in settings.'
+        : this.generateLocalAiResponse(userQuery);
+
       this.messages.push({
         sender: 'ai',
-        text: this.generateLocalAiResponse(userQuery),
+        text: errorMsg,
         timestamp: this.getCurrentTime()
       });
     } finally {
@@ -780,7 +801,7 @@ export class AiChatComponent implements OnInit {
     const q = query.toLowerCase().trim();
 
     if (q === 'hi' || q === 'hello' || q === 'hey' || q.startsWith('hi ') || q.startsWith('hello ')) {
-      return `👋 Hi there! I'm **Binod's Gemini AI Assistant**.\n\nI can answer any questions about Binod Prasad's resume, work at **Deloitte** & **IBM**, skills in **Angular / .NET / Python**, or projects like **ZigTravel** and **Resume Master**!`;
+      return `👋 Hi there! I'm **Binod's Claude AI Assistant**.\n\nI can answer any questions about Binod Prasad's resume, his work as **SDE 2 at Deloitte** & **IBM**, skills in **Angular / .NET / Python**, or projects like **ZigTravel** and **Resume Master**!\n\n💡 *Tip: Add your Anthropic API key via the key icon for intelligent AI responses.*`;
     }
 
     if (q.includes('zigtravel') || q.includes('travel')) {
@@ -804,8 +825,8 @@ export class AiChatComponent implements OnInit {
     }
 
     if (q.includes('deloitte') || q.includes('ibm') || q.includes('experience') || q.includes('work') || q.includes('history') || q.includes('company') || q.includes('job') || q.includes('career')) {
-      return `💼 **Binod's Work History Highlights**:\n\n` +
-        `1. **Deloitte** (*Nov 2025 - Present*) – Consultant creating scalable Angular applications.\n` +
+      return `💼 **Binod's Work History**:\n\n` +
+        `1. **Deloitte** (*Nov 2025 - Present*) – **SDE 2** leading Angular architecture for enterprise apps.\n` +
         `2. **IBM** (*July 2024 - Oct 2025*) – Application Developer (RxJS optimizations, IBM Cloud).\n` +
         `3. **Freelance** (*Nov 2023 - June 2024*) – British Railways maintenance platform (.NET Core) & booking software.\n` +
         `4. **Anicca Data Science** (*Nov 2022 - Oct 2023*) – Real-time inventory dashboards & Python DAG forecasting.\n` +
@@ -820,16 +841,18 @@ export class AiChatComponent implements OnInit {
         `• ✈️ **[Flexflier](https://flexflier.com/home)**: Flight & hotel booking portal.`;
     }
 
-    if (q.includes('education') || q.includes('degree') || q.includes('college') || q.includes('university') || q.includes('study')) {
-      return `🎓 **Education & Background**:\n\n` +
-        `Binod holds a degree in Computer Science / Engineering and has completed continuous certifications in Angular, Cloud Architecture, and Generative AI integrations.`;
+    if (q.includes('education') || q.includes('degree') || q.includes('college') || q.includes('university') || q.includes('study') || q.includes('iit')) {
+      return `🎓 **Education**:\n\n` +
+        `• **PG Certificate in Data Science** — IIT Roorkee *(Dec 2021 – Dec 2022)*\n` +
+        `• **B.Tech in Computer Science** — THDC Institute of Hydropower Engineering *(July 2014 – Aug 2018)*`;
     }
 
     if (q.includes('contact') || q.includes('email') || q.includes('hire') || q.includes('reach') || q.includes('phone') || q.includes('message')) {
       return `📬 **Get in Touch with Binod**:\n\n` +
+        `• **Email**: prasadbinod490@gmail.com\n` +
+        `• **LinkedIn**: [linkedin.com/in/binod-prasad-0aa73714a](https://linkedin.com/in/binod-prasad-0aa73714a)\n` +
         `• **GitHub**: [github.com/thisIsBinodPrasad](https://github.com/thisIsBinodPrasad)\n` +
-        `• **Resume PDF**: Download directly from the hero header banner!\n` +
-        `• Feel free to fill out the **Contact Form** at the bottom of the page!`;
+        `• **Resume PDF**: Download directly from the hero section!`;
     }
 
     if (q.includes('who') || q.includes('about') || q.includes('binod') || q.includes('summary') || q.includes('intro')) {
@@ -838,9 +861,10 @@ export class AiChatComponent implements OnInit {
 
     return `I can help you explore Binod's profile! Try asking:\n` +
       `• *"Tell me about ZigTravel"*\n` +
-      `• *"What is his role at Deloitte?"*\n` +
+      `• *"What is his SDE 2 role at Deloitte?"*\n` +
       `• *"What tech stack does he use?"*\n` +
-      `• *"List his top featured projects"*`;
+      `• *"List his top featured projects"*\n\n` +
+      `💡 *Add your Anthropic API key for full AI-powered responses!*`;
   }
 
   formatMessage(text: string): string {

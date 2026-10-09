@@ -23,10 +23,13 @@ import { MatIconModule } from '@angular/material/icon';
         
         <div class="links">
           <a mat-raised-button color="primary" href="mailto:prasadbinod490@gmail.com" target="_blank" rel="noopener noreferrer" class="big-btn">
-            <mat-icon>email</mat-icon> prasadbinod490@gmail.com
+            <mat-icon>email</mat-icon> Email Me
           </a>
-          <a mat-stroked-button href="https://linkedin.com/in/binod-prasad-0aa73714a" target="_blank" class="big-btn">
+          <a mat-stroked-button href="https://linkedin.com/in/binod-prasad-0aa73714a" target="_blank" rel="noopener noreferrer" class="big-btn">
             <mat-icon>link</mat-icon> LinkedIn
+          </a>
+          <a mat-stroked-button href="https://github.com/thisIsBinodPrasad" target="_blank" rel="noopener noreferrer" class="big-btn">
+            <mat-icon>code</mat-icon> GitHub
           </a>
         </div>
       </div>
