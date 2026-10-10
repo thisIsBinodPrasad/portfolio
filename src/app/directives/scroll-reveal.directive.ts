@@ -1,5 +1,5 @@
 
-import { Directive, ElementRef, OnInit, Renderer2, Inject, PLATFORM_ID } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit, Renderer2, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 @Directive({
@@ -7,6 +7,11 @@ import { isPlatformBrowser } from '@angular/common';
     standalone: true
 })
 export class ScrollRevealDirective implements OnInit {
+    /** Direction: '' or 'up' (default), 'left', 'right' */
+    @Input('appScrollReveal') direction: string = '';
+    /** Optional stagger delay in milliseconds */
+    @Input() appScrollRevealDelay: number = 0;
+
     constructor(
         private el: ElementRef,
         private renderer: Renderer2,
@@ -14,20 +19,26 @@ export class ScrollRevealDirective implements OnInit {
     ) { }
 
     ngOnInit() {
-        if (isPlatformBrowser(this.platformId)) {
-            // Only hide and observe if we are in the browser
-            this.renderer.addClass(this.el.nativeElement, 'reveal-hidden');
+        if (!isPlatformBrowser(this.platformId)) return;
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
+        const dir = (this.direction || 'up').toLowerCase();
+        let hiddenClass = 'reveal-hidden';
+        if (dir === 'left')  hiddenClass = 'reveal-left';
+        if (dir === 'right') hiddenClass = 'reveal-right';
+
+        this.renderer.addClass(this.el.nativeElement, hiddenClass);
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
                         this.renderer.addClass(this.el.nativeElement, 'reveal-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
+                    }, this.appScrollRevealDelay);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08 });
 
-            observer.observe(this.el.nativeElement);
-        }
+        observer.observe(this.el.nativeElement);
     }
 }

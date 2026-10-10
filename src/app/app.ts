@@ -10,8 +10,6 @@ import { ContactComponent } from './components/contact/contact.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { EducationComponent } from './components/education/education.component';
 import { AnimatedBgComponent } from './components/animated-bg/animated-bg.component';
-import { AiChatComponent } from './components/ai-chat/ai-chat.component';
-
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -25,8 +23,7 @@ import { AiChatComponent } from './components/ai-chat/ai-chat.component';
     EducationComponent,
     ContactComponent,
     FooterComponent,
-    AnimatedBgComponent,
-    AiChatComponent
+    AnimatedBgComponent
   ],
   template: `
     <app-animated-bg></app-animated-bg>
@@ -40,7 +37,6 @@ import { AiChatComponent } from './components/ai-chat/ai-chat.component';
       <app-contact></app-contact>
     </main>
     <app-footer></app-footer>
-    <app-ai-chat></app-ai-chat>
   `,
   styleUrl: './app.scss'
 })

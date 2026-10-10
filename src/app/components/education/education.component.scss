@@ -4,23 +4,31 @@
     position: relative;
     overflow: hidden;
   }
-  
+
   .section-title {
     font-size: 2.5rem;
     text-align: center;
     margin-bottom: 4rem;
     color: var(--text-color);
     position: relative;
-    
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+
     &::after {
       content: '';
       display: block;
-      width: 60px;
-      height: 4px;
-      background: var(--primary-color);
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
       margin: 10px auto 0;
       border-radius: 2px;
+      animation: growUnderline 1s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
     }
+  }
+
+  @keyframes growUnderline {
+    to { width: 100%; }
   }
   
   .timeline {
@@ -47,7 +55,18 @@
     background-color: inherit;
     width: 50%;
     box-sizing: border-box;
-    
+    animation: eduSlideIn 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+    &:nth-child(1) {
+      animation-delay: 0.2s;
+      animation-name: eduSlideLeft;
+    }
+
+    &:nth-child(2) {
+      animation-delay: 0.4s;
+      animation-name: eduSlideRight;
+    }
+
     &:nth-child(odd) {
       left: 0;
       text-align: right;
@@ -88,6 +107,16 @@
     }
   }
   
+  @keyframes eduSlideLeft {
+    from { opacity: 0; transform: translateX(-50px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes eduSlideRight {
+    from { opacity: 0; transform: translateX(50px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
   .timeline-dot {
     position: absolute;
     width: 20px;
@@ -98,7 +127,13 @@
     top: 25px;
     border-radius: 50%;
     z-index: 1;
-    box-shadow: 0 0 15px var(--primary-color);
+    box-shadow: 0 0 15px var(--primary-color), 0 0 30px rgba(20,184,166,0.3);
+    animation: dotGlow 2.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes dotGlow {
+    from { box-shadow: 0 0 12px var(--primary-color), 0 0 24px rgba(20,184,166,0.25); }
+    to   { box-shadow: 0 0 20px var(--primary-color), 0 0 40px rgba(20,184,166,0.5); }
   }
   
   .timeline-item:nth-child(even) .timeline-dot {
@@ -108,20 +143,33 @@
   .content-card {
     padding: 24px;
     background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 16px;
     position: relative;
     backdrop-filter: blur(10px);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.38s ease, border-color 0.38s ease;
     display: flex;
     align-items: flex-start;
-    gap: 15px; // fallback gap
-    
+    gap: 15px;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -50%; left: -80%;
+      width: 50%; height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.6s ease;
+    }
+
     &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      border-color: rgba(var(--primary-rgb), 0.3);
+      transform: translateY(-7px);
+      box-shadow: 0 16px 44px rgba(0, 0, 0, 0.28), 0 0 24px rgba(20, 184, 166, 0.15);
+      border-color: rgba(20, 184, 166, 0.35);
       background: rgba(255, 255, 255, 0.05);
+
+      &::after { left: 160%; }
     }
   }
 
@@ -139,13 +187,43 @@
       justify-content: center;
       flex-shrink: 0;
       color: white;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      
+      box-shadow: 0 5px 18px rgba(20,184,166,0.35);
+      position: relative;
+      overflow: hidden;
+      animation: iconPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      animation-delay: inherit;
+      transition: box-shadow 0.3s;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255,255,255,0.25), transparent);
+        border-radius: inherit;
+        animation: iconShimmer 4s ease-in-out infinite;
+      }
+
+      .content-card:hover & {
+        box-shadow: 0 8px 24px rgba(20,184,166,0.5);
+      }
+
       mat-icon {
           font-size: 24px;
           width: 24px;
           height: 24px;
+          position: relative;
+          z-index: 1;
       }
+  }
+
+  @keyframes iconPop {
+    from { transform: scale(0.5) rotate(-15deg); opacity: 0; }
+    to   { transform: scale(1) rotate(0); opacity: 1; }
+  }
+
+  @keyframes iconShimmer {
+    0%,100% { opacity: 0.6; }
+    50%      { opacity: 0; }
   }
   
   .text-box {

@@ -30,11 +30,14 @@ import { ProjectDetailsDialogComponent } from '../project-details-dialog/project
   imports: [CommonModule, MatCardModule, MatButtonModule, MatChipsModule, MatIconModule, ScrollRevealDirective, MatDialogModule, TiltDirective],
   template: `
     <section id="projects" class="section-padding container">
-      <h2 class="section-title">Featured Work <span class="dot">.</span></h2>
-      
+      <h2 class="section-title">
+        Featured Work <span class="dot">.</span>
+        <span class="title-underline"></span>
+      </h2>
+
       <div class="featured-grid">
         <!-- Featured Project 1: ZigTravel -->
-        <mat-card class="project-card featured glass-card zigtravel-card" appScrollReveal appTilt>
+        <mat-card class="project-card featured glass-card zigtravel-card" [appScrollReveal]="'left'" appTilt>
           <div class="project-image-wrapper">
              <div class="project-preview-placeholder zigtravel-bg">
                <mat-icon>flight_takeoff</mat-icon>
@@ -55,14 +58,14 @@ import { ProjectDetailsDialogComponent } from '../project-details-dialog/project
                 <span class="role-badge">Angular • Travel Tech • Responsive</span>
             </div>
             <p>
-              A modern, dynamic travel booking & itinerary curation platform featuring 
+              A modern, dynamic travel booking & itinerary curation platform featuring
               interactive trip discovery, destination filtering, and sleek responsive UI.
             </p>
           </mat-card-content>
         </mat-card>
 
         <!-- Featured Project 2: Resume Master -->
-        <mat-card class="project-card featured glass-card" appScrollReveal appTilt>
+        <mat-card class="project-card featured glass-card" [appScrollReveal]="'right'" [appScrollRevealDelay]="100" appTilt>
           <div class="project-image-wrapper">
              <div class="project-preview-placeholder resume-master-bg">
                <mat-icon>description</mat-icon>
@@ -83,14 +86,14 @@ import { ProjectDetailsDialogComponent } from '../project-details-dialog/project
                 <span class="role-badge">Angular • Signals • PDF.js</span>
             </div>
             <p>
-              A premium, "lively" resume builder with real-time preview, multiple templates, 
+              A premium, "lively" resume builder with real-time preview, multiple templates,
               and ATS-optimized PDF export. Features a section-specific color identity system.
             </p>
           </mat-card-content>
         </mat-card>
 
         <!-- Featured Project 3: Koshex -->
-        <mat-card class="project-card featured glass-card" appScrollReveal appTilt>
+        <mat-card class="project-card featured glass-card" [appScrollReveal]="'left'" [appScrollRevealDelay]="200" appTilt>
           <div class="project-image-wrapper">
              <img src="assets/images/koshex-preview.png" alt="Koshex Dashboard" class="project-img">
              <div class="overlay">
@@ -108,14 +111,14 @@ import { ProjectDetailsDialogComponent } from '../project-details-dialog/project
                 <span class="role-badge">Angular • Python • SEO</span>
             </div>
             <p>
-              An intuitive platform for managing mutual fund investments and savings. 
+              An intuitive platform for managing mutual fund investments and savings.
               Features real-time portfolio tracking and goal-based investing tools.
             </p>
           </mat-card-content>
         </mat-card>
 
         <!-- Featured Project 4: Flexflier -->
-        <mat-card class="project-card featured glass-card" appScrollReveal appTilt>
+        <mat-card class="project-card featured glass-card" [appScrollReveal]="'right'" [appScrollRevealDelay]="300" appTilt>
           <div class="project-image-wrapper">
              <img src="assets/images/flexflier-preview.png" alt="Flexflier Website" class="project-img">
              <div class="overlay">
@@ -142,8 +145,8 @@ import { ProjectDetailsDialogComponent } from '../project-details-dialog/project
 
       <h3 class="sub-title">More Projects</h3>
       <div class="grid">
-        @for (project of otherProjects; track project.title) {
-          <mat-card class="glass-card compact-card" appScrollReveal [style.border-top-color]="project.color">
+        @for (project of otherProjects; track project.title; let i = $index) {
+          <mat-card class="glass-card compact-card" appScrollReveal [appScrollRevealDelay]="i * 80" [style.border-top-color]="project.color">
             <mat-card-header>
               <div mat-card-avatar class="project-icon" [style.background-color]="project.color + '20'">
                 <mat-icon [style.color]="project.color">{{ project.icon }}</mat-icon>
@@ -174,8 +177,26 @@ import { ProjectDetailsDialogComponent } from '../project-details-dialog/project
     .section-title {
       font-size: 2.5rem;
       font-weight: 700;
-      margin-bottom: 40px;
+      margin-bottom: 48px;
+      position: relative;
+      display: inline-block;
+
       .dot { color: var(--primary-color); }
+
+      .title-underline {
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        height: 3px;
+        width: 0;
+        background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        border-radius: 2px;
+        animation: growLine 1s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
+      }
+    }
+
+    @keyframes growLine {
+      to { width: 100%; }
     }
     
     .sub-title {
@@ -196,39 +217,55 @@ import { ProjectDetailsDialogComponent } from '../project-details-dialog/project
       overflow: hidden;
       padding: 0;
       border: 1px solid var(--glass-border);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      
+      transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.38s ease, border-color 0.38s ease;
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: -50%; left: -80%;
+        width: 50%; height: 200%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+        transform: skewX(-20deg);
+        transition: left 0.65s ease;
+        z-index: 10;
+        pointer-events: none;
+      }
+
       &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        transform: translateY(-8px);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3), 0 0 24px rgba(20, 184, 166, 0.18);
+        border-color: rgba(20, 184, 166, 0.45);
+
+        &::before { left: 160%; }
       }
 
       .project-image-wrapper {
         position: relative;
         height: 300px;
         overflow: hidden;
-        
+
         .project-img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: transform 0.5s ease;
+          transition: transform 0.55s ease;
         }
 
         .overlay {
           position: absolute;
           inset: 0;
-          background: rgba(0,0,0,0.6);
+          background: rgba(0,0,0,0.65);
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 16px;
           opacity: 0;
-          transition: opacity 0.3s ease;
+          transition: opacity 0.35s ease;
         }
 
         &:hover {
-          .project-img { transform: scale(1.05); }
+          .project-img { transform: scale(1.08); }
           .overlay { opacity: 1; }
         }
       }
