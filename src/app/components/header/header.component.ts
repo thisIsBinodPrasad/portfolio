@@ -352,6 +352,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private observer!: IntersectionObserver;
   private audioCtx: AudioContext | null = null;
   private masterGain: GainNode | null = null;
+  private scrollTicking = false;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -375,10 +376,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   @HostListener('window:scroll')
   onWindowScroll(): void {
-    if (!isPlatformBrowser(this.platformId)) return;
-    const scrollTop   = document.documentElement.scrollTop || document.body.scrollTop;
-    const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    this.scrollProgress = totalHeight > 0 ? (scrollTop / totalHeight) * 100 : 0;
+    if (!isPlatformBrowser(this.platformId) || this.scrollTicking) return;
+    this.scrollTicking = true;
+    requestAnimationFrame(() => {
+      const scrollTop   = document.documentElement.scrollTop || document.body.scrollTop;
+      const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      this.scrollProgress = totalHeight > 0 ? (scrollTop / totalHeight) * 100 : 0;
+      this.scrollTicking = false;
+    });
   }
 
   toggleMenu(): void { this.menuOpen = !this.menuOpen; }

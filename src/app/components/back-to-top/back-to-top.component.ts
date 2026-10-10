@@ -78,13 +78,18 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class BackToTopComponent {
   show = false;
+  private ticking = false;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   @HostListener('window:scroll')
   onScroll(): void {
-    if (!isPlatformBrowser(this.platformId)) return;
-    this.show = window.scrollY > 400;
+    if (!isPlatformBrowser(this.platformId) || this.ticking) return;
+    this.ticking = true;
+    requestAnimationFrame(() => {
+      this.show = window.scrollY > 400;
+      this.ticking = false;
+    });
   }
 
   scrollToTop(): void {

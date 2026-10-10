@@ -97,6 +97,7 @@ import { TypingEffectDirective } from '../../directives/typing-effect.directive'
       min-height: 100vh;
       padding-top: 80px;
       position: relative;
+      overflow: hidden;
 
       @media (max-width: 960px) {
         flex-direction: column-reverse;
@@ -303,6 +304,16 @@ import { TypingEffectDirective } from '../../directives/typing-effect.directive'
       position: relative;
       width: 360px;
       height: 360px;
+
+      @media (max-width: 960px) {
+        width: 260px;
+        height: 260px;
+      }
+
+      @media (max-width: 480px) {
+        width: 220px;
+        height: 220px;
+      }
 
       .profile-img {
         width: 100%;

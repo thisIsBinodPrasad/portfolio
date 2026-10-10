@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 interface Particle {
@@ -56,6 +56,7 @@ interface Particle {
       border-radius: 50%;
       filter: blur(90px);
       animation: floatOrb 20s ease-in-out infinite alternate;
+      will-change: transform;
     }
 
     .orb-1 {
@@ -119,6 +120,7 @@ interface Particle {
       left: -75%;
       border-radius: 60%;
       filter: blur(70px);
+      will-change: transform;
     }
 
     .aurora-1 {
@@ -146,6 +148,7 @@ interface Particle {
     .floating-shape {
       position: absolute;
       animation: floatShape 22s ease-in-out infinite alternate;
+      will-change: transform;
     }
 
     .shape-1 {
@@ -231,25 +234,50 @@ export class AnimatedBgComponent implements OnInit, OnDestroy {
   private mouse = { x: -1000, y: -1000, radius: 180 };
   private colors = ['#14b8a6', '#ec4899', '#6366f1', '#38bdf8', '#a855f7', '#22d3ee'];
   private time = 0;
+  private lastFrameTime = 0;
+  private mobile = false;
+  // Pre-computed squared thresholds — avoids Math.sqrt in the hot path
+  private readonly mouseRadiusSq = 180 * 180;
+  private readonly connectDistSq = 145 * 145;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private ngZone: NgZone
+  ) {}
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     const canvas = this.canvasRef.nativeElement;
     this.ctx = canvas.getContext('2d');
+    this.mobile = window.innerWidth < 768;
     this.resizeCanvas();
     this.initParticles();
-    this.animate();
+    // Run entirely outside Angular zone — prevents change detection on every rAF tick
+    this.ngZone.runOutsideAngular(() => this.animate(0));
   }
 
   ngOnDestroy(): void {
     if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
   }
 
+  // Pause canvas when tab is backgrounded, resume when visible again
+  @HostListener('document:visibilitychange')
+  onVisibilityChange(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    if (document.hidden) {
+      if (this.animationFrameId) {
+        cancelAnimationFrame(this.animationFrameId);
+        this.animationFrameId = 0;
+      }
+    } else if (!this.animationFrameId) {
+      this.ngZone.runOutsideAngular(() => this.animate(0));
+    }
+  }
+
   @HostListener('window:resize')
   onResize(): void {
     if (!isPlatformBrowser(this.platformId)) return;
+    this.mobile = window.innerWidth < 768;
     this.resizeCanvas();
     this.initParticles();
   }
@@ -292,8 +320,19 @@ export class AnimatedBgComponent implements OnInit, OnDestroy {
     }
   }
 
-  private animate = (): void => {
+  private animate = (timestamp: number): void => {
     if (!this.ctx) return;
+
+    // Limit to ~30fps on mobile to halve GPU load while keeping all animations
+    if (this.mobile) {
+      const elapsed = timestamp - this.lastFrameTime;
+      if (elapsed < 33) {
+        this.animationFrameId = requestAnimationFrame(this.animate);
+        return;
+      }
+      this.lastFrameTime = timestamp - (elapsed % 33);
+    }
+
     const canvas = this.canvasRef.nativeElement;
     this.ctx.clearRect(0, 0, canvas.width, canvas.height);
     this.time += 0.012;
@@ -307,10 +346,12 @@ export class AnimatedBgComponent implements OnInit, OnDestroy {
       if (p.x < 0 || p.x > canvas.width)  p.vx *= -1;
       if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
 
+      // Squared distance check — skips sqrt for the ~99% of particles outside radius
       const dx = this.mouse.x - p.x;
       const dy = this.mouse.y - p.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < this.mouse.radius && dist > 0) {
+      const distSq = dx * dx + dy * dy;
+      if (distSq < this.mouseRadiusSq && distSq > 0) {
+        const dist = Math.sqrt(distSq);
         const force = (this.mouse.radius - dist) / this.mouse.radius;
         p.x -= (dx / dist) * force * 2.2;
         p.y -= (dy / dist) * force * 2.2;
@@ -328,9 +369,10 @@ export class AnimatedBgComponent implements OnInit, OnDestroy {
         const p2 = this.particles[j];
         const pDx = p.x - p2.x;
         const pDy = p.y - p2.y;
-        const pDist = Math.sqrt(pDx * pDx + pDy * pDy);
+        const pDistSq = pDx * pDx + pDy * pDy;
 
-        if (pDist < 145) {
+        if (pDistSq < this.connectDistSq) {
+          const pDist = Math.sqrt(pDistSq);
           this.ctx.beginPath();
           this.ctx.moveTo(p.x, p.y);
           this.ctx.lineTo(p2.x, p2.y);
