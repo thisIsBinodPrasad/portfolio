@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 export interface ContentSection {
-  type: 'heading' | 'paragraph' | 'code' | 'list' | 'diagram';
+  type: 'heading' | 'paragraph' | 'code' | 'list' | 'diagram' | 'callout';
   content?: string;
   items?: string[];
   svg?: string;
@@ -74,6 +74,9 @@ export interface BlogPost {
           }
           @case ('diagram') {
             <div class="s-diagram" [innerHTML]="safe(section.svg!)"></div>
+          }
+          @case ('callout') {
+            <div class="s-callout">{{ section.content }}</div>
           }
         }
       }
@@ -198,6 +201,31 @@ export interface BlogPost {
         line-height: 1.65;
         &::marker { color: var(--bullet, #14b8a6); }
       }
+    }
+
+    .s-callout {
+      margin: 36px -28px 8px;
+      padding: 40px 28px 32px;
+      font-size: 2.1rem;
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #14b8a6 0%, #ec4899 50%, #6366f1 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(20,184,166,0.06), rgba(236,72,153,0.06), rgba(99,102,241,0.06));
+        pointer-events: none;
+      }
+
+      @media (max-width: 600px) { font-size: 1.5rem; padding: 28px 16px 24px; }
     }
 
     .s-diagram {

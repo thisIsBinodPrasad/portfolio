@@ -93,9 +93,424 @@ const SVG_RXJS = `<svg viewBox="0 0 520 262" xmlns="http://www.w3.org/2000/svg" 
   <text x="260" y="251" fill="#fbbf24" font-size="9" text-anchor="middle" font-weight="600">Bridge: toSignal(obs$) and toObservable(sig) connect both worlds</text>
 </svg>`;
 
+const SVG_PORTFOLIO = `<svg viewBox="0 0 560 310" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:Inter,sans-serif">
+  <rect width="560" height="310" fill="rgba(15,23,42,0.85)" rx="10"/>
+  <text x="280" y="20" fill="#94a3b8" font-size="11" font-weight="600" text-anchor="middle">17 Standalone Angular Components</text>
+  <rect x="195" y="30" width="170" height="26" rx="8" fill="rgba(20,184,166,0.25)" stroke="#14b8a6" stroke-width="1.5"/>
+  <text x="280" y="47" fill="#e2e8f0" font-size="10" font-weight="700" text-anchor="middle">app.ts — Root Component</text>
+  <line x1="280" y1="56" x2="280" y2="68" stroke="#334155" stroke-width="1"/>
+  <line x1="125" y1="68" x2="435" y2="68" stroke="#334155" stroke-width="1"/>
+  <line x1="125" y1="68" x2="125" y2="80" stroke="#334155" stroke-width="1"/>
+  <line x1="435" y1="68" x2="435" y2="80" stroke="#334155" stroke-width="1"/>
+  <rect x="15" y="80" width="220" height="18" rx="4" fill="rgba(99,102,241,0.2)" stroke="rgba(99,102,241,0.5)" stroke-width="1"/>
+  <text x="125" y="92" fill="#a5b4fc" font-size="9" font-weight="700" text-anchor="middle">FIXED / OVERLAY</text>
+  <rect x="325" y="80" width="220" height="18" rx="4" fill="rgba(20,184,166,0.2)" stroke="rgba(20,184,166,0.5)" stroke-width="1"/>
+  <text x="435" y="92" fill="#5eead4" font-size="9" font-weight="700" text-anchor="middle">SCROLLABLE SECTIONS</text>
+  <rect x="20" y="108" width="100" height="18" rx="4" fill="rgba(99,102,241,0.1)" stroke="rgba(99,102,241,0.35)" stroke-width="1"/>
+  <text x="70" y="120" fill="#94a3b8" font-size="9" text-anchor="middle">AnimatedBg</text>
+  <rect x="130" y="108" width="100" height="18" rx="4" fill="rgba(99,102,241,0.1)" stroke="rgba(99,102,241,0.35)" stroke-width="1"/>
+  <text x="180" y="120" fill="#94a3b8" font-size="9" text-anchor="middle">Header</text>
+  <rect x="20" y="134" width="100" height="18" rx="4" fill="rgba(99,102,241,0.1)" stroke="rgba(99,102,241,0.35)" stroke-width="1"/>
+  <text x="70" y="146" fill="#94a3b8" font-size="9" text-anchor="middle">PageLoader</text>
+  <rect x="130" y="134" width="100" height="18" rx="4" fill="rgba(99,102,241,0.1)" stroke="rgba(99,102,241,0.35)" stroke-width="1"/>
+  <text x="180" y="146" fill="#94a3b8" font-size="9" text-anchor="middle">BackToTop</text>
+  <rect x="20" y="160" width="100" height="18" rx="4" fill="rgba(99,102,241,0.1)" stroke="rgba(99,102,241,0.35)" stroke-width="1"/>
+  <text x="70" y="172" fill="#94a3b8" font-size="9" text-anchor="middle">SectionNav</text>
+  <rect x="130" y="160" width="100" height="18" rx="4" fill="rgba(99,102,241,0.1)" stroke="rgba(99,102,241,0.35)" stroke-width="1"/>
+  <text x="180" y="172" fill="#94a3b8" font-size="9" text-anchor="middle">AiChatbot</text>
+  <rect x="330" y="108" width="100" height="18" rx="4" fill="rgba(20,184,166,0.1)" stroke="rgba(20,184,166,0.35)" stroke-width="1"/>
+  <text x="380" y="120" fill="#94a3b8" font-size="9" text-anchor="middle">Hero / About</text>
+  <rect x="440" y="108" width="100" height="18" rx="4" fill="rgba(20,184,166,0.1)" stroke="rgba(20,184,166,0.35)" stroke-width="1"/>
+  <text x="490" y="120" fill="#94a3b8" font-size="9" text-anchor="middle">Experience</text>
+  <rect x="330" y="134" width="100" height="18" rx="4" fill="rgba(20,184,166,0.1)" stroke="rgba(20,184,166,0.35)" stroke-width="1"/>
+  <text x="380" y="146" fill="#94a3b8" font-size="9" text-anchor="middle">Projects</text>
+  <rect x="440" y="134" width="100" height="18" rx="4" fill="rgba(20,184,166,0.1)" stroke="rgba(20,184,166,0.35)" stroke-width="1"/>
+  <text x="490" y="146" fill="#94a3b8" font-size="9" text-anchor="middle">Skills</text>
+  <rect x="325" y="160" width="220" height="58" rx="6" fill="rgba(251,191,36,0.06)" stroke="rgba(251,191,36,0.25)" stroke-width="1" stroke-dasharray="5 3"/>
+  <text x="435" y="172" fill="#fbbf24" font-size="8" text-anchor="middle" font-weight="600">@defer — code-split on viewport</text>
+  <rect x="330" y="178" width="62" height="18" rx="4" fill="rgba(236,72,153,0.12)" stroke="rgba(236,72,153,0.4)" stroke-width="1"/>
+  <text x="361" y="190" fill="#94a3b8" font-size="8" text-anchor="middle">Testimonials</text>
+  <rect x="400" y="178" width="66" height="18" rx="4" fill="rgba(236,72,153,0.12)" stroke="rgba(236,72,153,0.4)" stroke-width="1"/>
+  <text x="433" y="190" fill="#94a3b8" font-size="8" text-anchor="middle">Certifications</text>
+  <rect x="474" y="178" width="62" height="18" rx="4" fill="rgba(236,72,153,0.12)" stroke="rgba(236,72,153,0.4)" stroke-width="1"/>
+  <text x="505" y="190" fill="#94a3b8" font-size="8" text-anchor="middle">Blog</text>
+  <rect x="330" y="228" width="100" height="18" rx="4" fill="rgba(20,184,166,0.1)" stroke="rgba(20,184,166,0.35)" stroke-width="1"/>
+  <text x="380" y="240" fill="#94a3b8" font-size="9" text-anchor="middle">Contact</text>
+  <rect x="440" y="228" width="100" height="18" rx="4" fill="rgba(20,184,166,0.1)" stroke="rgba(20,184,166,0.35)" stroke-width="1"/>
+  <text x="490" y="240" fill="#94a3b8" font-size="9" text-anchor="middle">Footer</text>
+  <rect x="15" y="264" width="530" height="20" rx="4" fill="rgba(168,85,247,0.12)" stroke="rgba(168,85,247,0.35)" stroke-width="1"/>
+  <text x="280" y="278" fill="#d8b4fe" font-size="9" text-anchor="middle">ScrollRevealDirective · ThemeService · MatDialog · CSS Custom Properties</text>
+  <rect x="15" y="290" width="10" height="10" rx="2" fill="rgba(99,102,241,0.2)" stroke="#6366f1" stroke-width="1"/>
+  <text x="30" y="299" fill="#64748b" font-size="8">Fixed</text>
+  <rect x="75" y="290" width="10" height="10" rx="2" fill="rgba(20,184,166,0.2)" stroke="#14b8a6" stroke-width="1"/>
+  <text x="90" y="299" fill="#64748b" font-size="8">Section</text>
+  <rect x="145" y="290" width="10" height="10" rx="2" fill="rgba(236,72,153,0.2)" stroke="#ec4899" stroke-width="1"/>
+  <text x="160" y="299" fill="#64748b" font-size="8">@defer loaded</text>
+  <rect x="218" y="290" width="10" height="10" rx="2" fill="rgba(251,191,36,0.1)" stroke="rgba(251,191,36,0.4)" stroke-width="1" stroke-dasharray="4 2"/>
+  <text x="233" y="299" fill="#64748b" font-size="8">Lazy boundary</text>
+</svg>`;
+
 /* ── Full article content ────────────────────────────────────────── */
 
+const PORTFOLIO_PROMPT = `You are an expert Angular 21 developer and UI/UX designer.
+Build me a complete, production-ready personal portfolio website.
+I will provide my resume — extract all data from it (name, title,
+roles, skills, experience, projects, certifications, education,
+contact info) and use it to populate every section.
+
+TECH STACK
+- Angular 21, standalone components (no NgModules), SSR (@angular/ssr)
+- Angular Material (toolbar, icon, button, dialog, form-field, chip)
+- TypeScript strict mode, SCSS, CSS custom properties
+- ChangeDetectionStrategy.OnPush on ALL components
+- Claude API (claude-opus-5-5) for an AI chatbot sidebar
+
+VISUAL DESIGN — dark theme default, light mode toggle
+Color tokens: primary #14b8a6, accent #ec4899, bg #0f172a,
+surface #1e293b, text #f8fafc, muted #94a3b8.
+Font: Inter (body) + Outfit (headings), preconnected via Google Fonts.
+Glass cards: rgba(30,41,59,0.7) bg, backdrop-filter blur(14px),
+1px rgba(255,255,255,0.1) border, border-radius 16px.
+Section titles: gradient ::after underline animates width 0→100%
+on 1s cubic-bezier(0.22,1,0.36,1) after 0.4s delay.
+
+ANIMATED BACKGROUND (fixed, z-index -1, pointer-events none)
+Canvas particle system: 60-95 particles (min(area/10000, 95)),
+each with position, velocity (±0.325), radius (0.7-3.1), baseAlpha,
+color from ['#14b8a6','#ec4899','#6366f1','#38bdf8','#a855f7'],
+pulseOffset. Per frame: move, bounce edges, repel from mouse
+(radius 180px), pulse alpha with sin(), draw circle, connect
+particles <145px with fading lines. Squared distances only.
+runOutsideAngular(). Pause on tab hidden. 30fps cap on mobile.
+CSS layer: 5 glow orbs (blur 90px radial gradients, floatOrb),
+2 aurora bands (blur 70px, auroraMove), dot grid (gridPulse),
+4 floating geometric shapes (floatShape). Mobile: halve blur.
+
+HEADER (fixed, z-index 1000)
+3px teal→pink→indigo scroll progress bar above navbar, rAF-updated.
+Frosted glass: backdrop-filter blur(18px). IntersectionObserver
+(threshold 0.35) on section elements for active nav link. Logo
+hover grows ::after underline. Nav links: hover expands centered
+underline from 50%. Contact link as teal pill. Sound toggle via
+Web Audio API brown noise (lowpass 280Hz, gain 0.04). Theme toggle
+persisted to localStorage. Hamburger → slide-in mobile menu from
+right. All async state: markForCheck() after ngZone.run().
+
+PAGE LOADER — full-screen, z-index 9999, animated progress bar,
+fades out after 2.4s. OnPush + markForCheck() in setInterval.
+
+HERO — two-column: gradient name text, typewriter subtitle cycling
+roles via setInterval (OnPush + markForCheck), 3 animated counters
+(years / projects / technologies), Download CV button (download
+attr), View Work scroll-to anchor, social links. Profile image:
+fetchpriority="high" decoding="async", circular gradient border.
+Animated SVG code symbol in background.
+
+EXPERIENCE — timeline cards with left color-accent border,
+company, role, date range, bullet points, tech chip tags.
+Scroll reveal left/right alternating.
+
+PROJECTS — filter tabs (All + category tabs), grid of cards,
+thumbnail (loading="lazy" decoding="async"), title, description,
+tech chips, GitHub + demo links. Image zooms 1.08x on hover.
+Staggered scroll reveal (i * 80ms delay).
+
+SKILLS — category tabs, animated progress bars fill on
+IntersectionObserver, tech icon grid with hover effects.
+
+TESTIMONIALS — 2-column glass cards, format_quote icon, italic
+text, initials avatar colored by company, verified icon badge.
+
+CERTIFICATIONS — cards with credential name, issuer, date,
+external verify link.
+
+BLOG / WRITING — 3-column card grid, click opens MatDialog
+with full article: headings, paragraphs, code blocks, lists,
+inline SVG diagrams. DomSanitizer.bypassSecurityTrustHtml().
+
+CONTACT — ReactiveFormsModule: name, email, subject, message.
+Validators: required, email, minLength. Success/error feedback.
+
+AI CHATBOT — floating FAB (bottom-right), slide-up chat panel,
+POST /api/chat → SSE stream → ReadableStream in Angular →
+WritableSignal<string> buffer updated token by token. System
+prompt baked with full resume so Claude answers accurately.
+
+ScrollRevealDirective — IntersectionObserver threshold 0.1,
+adds .reveal-hidden / .reveal-left / .reveal-right on init,
+.reveal-visible on intersect. [appScrollRevealDelay] sets
+CSS transition-delay for staggered entrance.
+
+PERFORMANCE (implement ALL)
+OnPush + markForCheck() after every async update.
+@defer (on viewport; prefetch on idle) on testimonials,
+certifications, blog.
+content-visibility: auto + contain-intrinsic-size: 0 700px
+on those three sections.
+ngZone.runOutsideAngular() for canvas animation loop.
+rAF + ticking flag for scroll events.
+Squared distances in hot loop.
+30fps mobile cap (delta < 33ms check).
+cancelAnimationFrame on tab hidden.
+fetchpriority="high" on hero image; loading="lazy" on rest.
+Google Fonts via preconnect + preload.
+provideHttpClient(withFetch()) in app.config.ts.
+Reduced backdrop-filter blur on mobile.
+
+BackToTop — fixed bottom-right, visible after 400px, OnPush.
+SectionNav — fixed side dots, active via IntersectionObserver.
+
+Generate the complete project: app.config.ts, app.ts, theme.service.ts,
+one folder per component, scroll-reveal.directive.ts, index.html,
+styles.scss, angular.json (SSR configured), server.ts.
+Replace all placeholders with data from the resume I will provide.`;
+
 const POSTS: BlogPost[] = [
+  {
+    title: 'Building This Portfolio: Every Feature, Animation & Optimization Explained',
+    date: 'Oct 2026',
+    readTime: '12 min read',
+    excerpt: 'A complete behind-the-scenes breakdown of how this portfolio was built with Angular 21, SSR, and Claude AI — every animation, every performance trick, every minute detail, and the prompt that made it possible.',
+    tags: ['Angular', 'Portfolio', 'AI', 'Performance'],
+    accentColor: '#38bdf8',
+    content: [
+      {
+        type: 'paragraph',
+        content: 'This portfolio was built from scratch using Angular 21 with SSR, Angular Material, and a layered animation system — and every line was generated through AI-assisted development using Claude Code. Here is a complete breakdown of every section, animation, directive, and performance optimization that went into it.'
+      },
+      {
+        type: 'heading',
+        content: 'Tech Stack'
+      },
+      {
+        type: 'list',
+        items: [
+          'Angular 21 — standalone components (no NgModules), SSR via @angular/ssr',
+          'Angular Material — toolbar, icon, button, dialog, form-field, ripple, chip',
+          'TypeScript strict mode throughout',
+          'SCSS with CSS custom properties (color tokens, glass variables)',
+          'Vite dev server (Angular CLI), Express for SSR',
+          'Claude API (claude-opus-5-5) for the AI chatbot',
+          'Web Audio API for the ambient brown noise toggle',
+          'Canvas 2D API for the particle system'
+        ]
+      },
+      {
+        type: 'heading',
+        content: 'Design System — Color Tokens & Glass Morphism'
+      },
+      {
+        type: 'paragraph',
+        content: 'The entire visual language flows from three core color tokens. Every gradient, glow, border highlight, and tag uses these three values — nothing is hard-coded in components.'
+      },
+      {
+        type: 'code',
+        content: `:root {
+  --primary-color: #14b8a6;  /* Teal 500  */
+  --accent-color:  #ec4899;  /* Pink 500  */
+  --bg-color:      #0f172a;  /* Slate 900 */
+  --surface-color: #1e293b;  /* Slate 800 */
+  --text-color:    #f8fafc;  /* Slate 50  */
+  --text-muted:    #94a3b8;  /* Slate 400 */
+
+  /* Glass morphism card */
+  --glass-bg:     rgba(30, 41, 59, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Light theme overrides on <html class="light-theme"> */
+.light-theme {
+  --bg-color:      #f8fafc;
+  --surface-color: #ffffff;
+  --text-color:    #0f172a;
+  --text-muted:    #64748b;
+  --glass-bg:      rgba(255, 255, 255, 0.7);
+}`
+      },
+      {
+        type: 'heading',
+        content: 'Component Architecture — 17 Standalone Components'
+      },
+      {
+        type: 'diagram',
+        svg: SVG_PORTFOLIO
+      },
+      {
+        type: 'heading',
+        content: 'Animated Background — Canvas + CSS Layers'
+      },
+      {
+        type: 'paragraph',
+        content: 'The background runs two parallel animation systems: a Canvas 2D particle engine and a pure CSS layer. Both are entirely outside Angular\'s change detection cycle to prevent per-frame CD runs.'
+      },
+      {
+        type: 'list',
+        items: [
+          'Canvas particles: count = min(width×height / 10000, 95) — scales to screen size',
+          'Mouse repulsion: squared distance check (dx²+dy² vs 180²) avoids Math.sqrt for ~99% of particles',
+          'Connection lines: drawn between particles within 145px, alpha = (1 - dist/145) × 0.18',
+          'Pulsing alpha: baseAlpha + sin(time×1.4 + pulseOffset) × 0.14 — each particle breathes independently',
+          '5 CSS glow orbs: teal top-left, pink bottom-right, indigo center, sky top-right, purple bottom-left; floatOrb keyframe (translate+scale, 16-26s, alternate)',
+          '2 Aurora layers: 250%-width blurred gradient bands, auroraMove keyframe (translateX+scaleX, 14-18s)',
+          'Dot grid: radial-gradient 52px grid, gridPulse keyframe pulses size and opacity',
+          '4 floating geometric shapes: square, circle, diamond, rounded square with floatShape (rotate+translateY+scale)',
+          'Tab visibility: cancelAnimationFrame on document.hidden, resume on visibilitychange',
+          'Mobile (max-width 768px): blur halved (90→45px, 70→35px), shapes hidden, grid animation disabled, 30fps cap'
+        ]
+      },
+      {
+        type: 'heading',
+        content: 'The Header — Every Detail'
+      },
+      {
+        type: 'list',
+        items: [
+          'Scroll progress bar: 3px gradient strip (teal→pink→indigo), box-shadow glow, rAF-updated, fixed above navbar',
+          'Navbar entrance: navSlideDown keyframe (translateY(-100%)→0 + opacity 0→1, 0.7s cubic-bezier)',
+          'Active section: IntersectionObserver with threshold 0.35 on #about, #experience, #projects, #skills, #contact',
+          'Logo: "Binod.P" in three styled spans; ::after pseudo-element underline grows width 0→100% on hover',
+          'Nav link hover: ::after underline expands outward from center — left moves left as width grows right',
+          'Contact link: pill border (border-radius 20px, 1px teal border), teal glow on hover',
+          'Sound toggle: first click creates AudioContext + lowpass-filtered brown noise buffer (loop, gain 0.04, cutoff 280Hz); subsequent clicks suspend/resume',
+          'Theme toggle: toggles .light-theme class on <html>, persisted to localStorage',
+          'Hamburger → X: span 1 translateY(7px)+rotate(45deg), span 2 opacity 0, span 3 translateY(-7px)+rotate(-45deg)',
+          'Mobile overlay: slides from right (translateX 100%→0, 0.4s cubic-bezier), numbered items (01-07), backdrop blur'
+        ]
+      },
+      {
+        type: 'heading',
+        content: 'Hero Section'
+      },
+      {
+        type: 'list',
+        items: [
+          'Gradient name: background-clip: text with linear-gradient from primary to accent',
+          'Typewriter subtitle: setInterval cycles through role strings, OnPush + markForCheck() on each tick',
+          '3 stat counters: setInterval from 0 to target (years / projects / technologies), staggered start',
+          'Profile image: fetchpriority="high" decoding="async", circular clip, gradient border glow ring',
+          'Animated SVG: rotating bracket/code symbol in background with CSS keyframe rotation',
+          'Download CV: anchor tag with download attribute pointing to /assets/resume.pdf',
+          'View Work button: smooth scroll to #experience via anchor href',
+          'Social links: GitHub, LinkedIn, Email — each with hover color and scale transition'
+        ]
+      },
+      {
+        type: 'heading',
+        content: 'Scroll Reveal Directive'
+      },
+      {
+        type: 'paragraph',
+        content: 'Every major element in the portfolio has a custom ScrollRevealDirective applied. It uses IntersectionObserver at threshold 0.1 to fire a one-time CSS transition from hidden to visible. Three directional modes let different elements slide in from different angles.'
+      },
+      {
+        type: 'code',
+        content: `// Applied to host element on init — one of three classes:
+.reveal-hidden  { opacity: 0; transform: translateY(42px);  }  // default
+.reveal-left    { opacity: 0; transform: translateX(-64px); }  // direction='left'
+.reveal-right   { opacity: 0; transform: translateX(64px);  }  // direction='right'
+
+// Transition: 0.85s cubic-bezier(0.5, 0, 0, 1) — slightly springy
+
+// When element enters viewport:
+.reveal-visible { opacity: 1 !important; transform: translate(0) !important; }
+
+// Staggered with [appScrollRevealDelay]="i * 80" → transition-delay: 80ms, 160ms, 240ms...
+// Observer disconnects after first fire — zero ongoing overhead`
+      },
+      {
+        type: 'heading',
+        content: 'Sections at a Glance'
+      },
+      {
+        type: 'list',
+        items: [
+          'Experience: left-bordered timeline cards (3px primary-color border), company, role, dates, bullet points, tech chips. Scroll reveal left/right alternating.',
+          'Projects: filter tab bar (All + categories), 3-column grid, image zoom 1.08x on hover, overlay fades in with links. Staggered scroll reveal.',
+          'Skills: animated width fill on progress bars triggered by IntersectionObserver, categorized tabs, tech icon grid.',
+          'Testimonials: 2-column glass cards, format_quote icon in gradient, initials avatar with company-colored border, verified badge. Scroll reveal left/right.',
+          'Certifications: cards with issuer, date, credential ID, external verification link.',
+          'Blog/Writing: 3-column card grid, tag chips, click opens MatDialog with full article content + inline SVG diagrams.',
+          'Contact: ReactiveFormsModule with Validators.required, Validators.email, Validators.minLength; success/error state on submit.',
+          'Footer: social links, built-with attribution, copyright.'
+        ]
+      },
+      {
+        type: 'heading',
+        content: 'AI Chatbot — Claude API Integration'
+      },
+      {
+        type: 'list',
+        items: [
+          'Floating FAB (bottom-right), click opens slide-up chat panel with 400px max-height',
+          'Frontend POSTs to /api/chat; backend proxies to Claude API with streaming enabled',
+          'Backend forwards SSE chunks; Angular reads via ReadableStream + TextDecoder',
+          'Response buffer: WritableSignal<string> — update(r => r + chunk) on each token',
+          'isStreaming signal drives a typing indicator (animated dots) in the UI',
+          'System prompt embeds full resume data so Claude answers portfolio questions accurately',
+          'Model: claude-opus-5-5 with max_tokens: 1024 and a portfolio-specific context',
+          'Error handling: graceful degradation message when API is unavailable'
+        ]
+      },
+      {
+        type: 'heading',
+        content: 'Performance — Everything Implemented'
+      },
+      {
+        type: 'list',
+        items: [
+          'ChangeDetectionStrategy.OnPush on all 17 components — eliminates full-tree CD on every scroll/rAF tick',
+          'markForCheck() called after every async state update (IntersectionObserver, setInterval, rAF callbacks)',
+          '@defer (on viewport; prefetch on idle) on Testimonials, Certifications, Blog — 3 separate lazy chunks',
+          'content-visibility: auto + contain-intrinsic-size: 0 700px on those three sections',
+          'Canvas animation runs in ngZone.runOutsideAngular() — zero CD events from 60fps rAF loop',
+          'Scroll progress and back-to-top use requestAnimationFrame + scrollTicking boolean to batch DOM reads',
+          'Squared distance checks (dx²+dy² vs threshold²) — avoids Math.sqrt in O(n²) particle inner loop',
+          '30fps mobile cap: if (timestamp - lastFrame < 33) return — halves GPU load on phones',
+          'cancelAnimationFrame on document.hidden, resume on visibilitychange — zero CPU when tab is hidden',
+          'Hero image: fetchpriority="high" decoding="async" — prioritizes LCP element over other resources',
+          'Project images: loading="lazy" decoding="async" — defers off-screen decode',
+          'Google Fonts: preconnect + preload link tag — eliminates FOUT, single combined request',
+          'provideHttpClient(withFetch()) — uses native fetch API for SSR compatibility (fixes NG02801)',
+          'Mobile backdrop-filter: blur(18px) → blur(8px) on max-width 768px'
+        ]
+      },
+      {
+        type: 'heading',
+        content: 'The Minute Details'
+      },
+      {
+        type: 'list',
+        items: [
+          'Scroll progress bar glow: box-shadow: 0 0 12px rgba(20,184,166,0.7) — the bar itself glows',
+          'Navbar animation: cubic-bezier(0.22, 1, 0.36, 1) — slight overshoot, feels physical not linear',
+          'Logo: "Binod" in --text-color, "." in --accent-color, "P" in --primary-color — three different CSS vars',
+          'Glass card hover: border-color transitions to rgba(20,184,166,0.45) + 0 0 28px rgba(20,184,166,0.18) shadow',
+          'Section nav dots: tooltip appears on hover via CSS :hover + adjacent sibling, no JavaScript',
+          'Particle inner loop connection: pDistSq compared to 145*145 = 21025 — no division, no sqrt',
+          'Ambient noise uses AudioContext.createBuffer with 4s of samples, src.loop = true — gapless',
+          'Typewriter cursor: ::after with opacity animation, blinks while typing pauses',
+          'Page loader uses same teal→pink gradient as the scroll progress bar — brand-consistent',
+          'Back-to-top button: opacity 0 → 1 transition with pointer-events toggle — no layout shift',
+          'Project filter tabs use signal-based filtering — filtered = computed(() => ...) with no subscriptions',
+          'Custom scrollbar: 8px width, --surface-color track, teal thumb on :hover',
+          'All section title underlines use the same growLine keyframe (to { width: 100% }) — one shared CSS rule'
+        ]
+      },
+      {
+        type: 'callout',
+        content: 'See what Magic a prompt can bring'
+      },
+      {
+        type: 'paragraph',
+        content: 'Here is the exact prompt used to create this entire portfolio. Give it to any AI Agent along with your resume — it will generate every component, every animation, every performance optimization, and populate it with your personal data. Zero manual configuration.'
+      },
+      {
+        type: 'code',
+        content: PORTFOLIO_PROMPT
+      }
+    ]
+  },
   {
     title: 'Optimizing Angular Bundle Size: What Actually Works',
     date: 'Sep 2025',
