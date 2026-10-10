@@ -17,6 +17,7 @@ import { SectionNavComponent }    from './components/section-nav/section-nav.com
 import { TestimonialsComponent }  from './components/testimonials/testimonials.component';
 import { CertificationsComponent} from './components/certifications/certifications.component';
 import { BlogComponent }          from './components/blog/blog.component';
+import { MusicPlayerComponent }   from './components/music-player/music-player.component';
 
 @Component({
   selector: 'app-root',
@@ -39,12 +40,14 @@ import { BlogComponent }          from './components/blog/blog.component';
     TestimonialsComponent,
     CertificationsComponent,
     BlogComponent,
+    MusicPlayerComponent,
   ],
   template: `
     <app-page-loader></app-page-loader>
     <app-cursor-glow></app-cursor-glow>
     <app-animated-bg></app-animated-bg>
     <app-section-nav></app-section-nav>
+    <app-music-player></app-music-player>
     <app-header></app-header>
     <main>
       <app-hero></app-hero>
