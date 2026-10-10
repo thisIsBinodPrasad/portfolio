@@ -6,20 +6,21 @@ import { isPlatformBrowser } from '@angular/common';
   providedIn: 'root'
 })
 export class ThemeService {
-  darkMode = signal<boolean>(true); // Default to dark
+  darkMode = signal<boolean>(true);
   private platformId = inject(PLATFORM_ID);
 
   constructor() {
+    if (isPlatformBrowser(this.platformId)) {
+      const saved = localStorage.getItem('bp-theme');
+      this.darkMode.set(saved ? saved === 'dark' : true);
+    }
+
     effect(() => {
-      // Guard against running on server
       if (isPlatformBrowser(this.platformId)) {
-        if (this.darkMode()) {
-          document.body.classList.add('dark-theme');
-          document.body.classList.remove('light-theme');
-        } else {
-          document.body.classList.add('light-theme');
-          document.body.classList.remove('dark-theme');
-        }
+        const dark = this.darkMode();
+        document.body.classList.toggle('dark-theme', dark);
+        document.body.classList.toggle('light-theme', !dark);
+        localStorage.setItem('bp-theme', dark ? 'dark' : 'light');
       }
     });
   }

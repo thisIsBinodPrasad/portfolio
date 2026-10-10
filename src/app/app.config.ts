@@ -1,6 +1,5 @@
 
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideLottieOptions } from 'ngx-lottie';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -14,9 +13,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
     provideAnimationsAsync(),
-    provideNativeDateAdapter(),
-    provideLottieOptions({
-      player: () => import('lottie-web'),
-    })
+    provideNativeDateAdapter()
   ]
 };
