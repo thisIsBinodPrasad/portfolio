@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,6 +10,7 @@ import { Project } from '../projects/projects.component';
   selector: 'app-project-details-dialog',
   standalone: true,
   imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule, MatChipsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="dialog-container glass-card">
       <div class="dialog-header">

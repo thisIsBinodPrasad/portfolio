@@ -1,5 +1,5 @@
 
-import { Component, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 
@@ -7,6 +7,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
   selector: 'app-experience',
   standalone: true,
   imports: [CommonModule, ScrollRevealDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section id="experience" class="section-padding container">
       <h2 class="section-title">
@@ -347,7 +348,10 @@ export class ExperienceComponent implements AfterViewInit {
     }
   ];
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
@@ -356,6 +360,7 @@ export class ExperienceComponent implements AfterViewInit {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           this.lineVisible = true;
+          this.cdr.markForCheck();
           observer.disconnect();
         }
       });

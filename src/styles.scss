@@ -113,6 +113,14 @@ body {
   padding: 80px 0;
 }
 
+/* Skip rendering below-fold sections until they near the viewport */
+#testimonials,
+#certifications,
+#blog {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 700px;
+}
+
 .text-gradient {
   background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
   -webkit-background-clip: text;

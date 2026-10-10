@@ -1,5 +1,5 @@
 
-import { Component, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
@@ -11,6 +11,7 @@ interface SkillCategory { title: string; matIcon: string; color: string; skills:
   selector: 'app-skills',
   standalone: true,
   imports: [CommonModule, MatIconModule, ScrollRevealDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section id="skills" class="section-padding container">
       <h2 class="section-title">
@@ -436,7 +437,10 @@ export class SkillsComponent implements AfterViewInit {
     }
   ];
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
@@ -451,6 +455,7 @@ export class SkillsComponent implements AfterViewInit {
                 this.animateSkill(skill);
               });
             });
+            this.cdr.markForCheck();
           }, 200);
           observer.disconnect();
         }
@@ -476,6 +481,7 @@ export class SkillsComponent implements AfterViewInit {
         clearInterval(interval);
         skill.displayed = skill.level;
       }
+      this.cdr.markForCheck();
     }, stepMs);
   }
 }

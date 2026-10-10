@@ -1,6 +1,6 @@
 
 import {
-  Component, HostListener, inject, Inject, NgZone, PLATFORM_ID,
+  Component, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, inject, Inject, NgZone, PLATFORM_ID,
   OnInit, OnDestroy
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
@@ -13,6 +13,7 @@ import { ThemeService } from '../../theme.service';
   selector: 'app-header',
   standalone: true,
   imports: [CommonModule, MatToolbarModule, MatButtonModule, MatIconModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="scroll-progress" [style.width.%]="scrollProgress"></div>
 
@@ -112,6 +113,12 @@ import { ThemeService } from '../../theme.service';
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
       padding: 0 20px;
       animation: navSlideDown 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+      @media (max-width: 768px) {
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        background: rgba(15, 23, 42, 0.92);
+      }
     }
 
     @keyframes navSlideDown {
@@ -356,7 +363,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -364,7 +372,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.observer = new IntersectionObserver(entries => {
       entries.forEach(e => {
-        if (e.isIntersecting) this.ngZone.run(() => { this.activeSection = e.target.id; });
+        if (e.isIntersecting) this.ngZone.run(() => { this.activeSection = e.target.id; this.cdr.markForCheck(); });
       });
     }, { threshold: 0.35 });
 
@@ -388,6 +396,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       this.scrollProgress = totalHeight > 0 ? (scrollTop / totalHeight) * 100 : 0;
       this.scrollTicking = false;
+      this.cdr.markForCheck();
     });
   }
 

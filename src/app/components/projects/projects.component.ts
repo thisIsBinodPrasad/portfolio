@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -31,6 +31,7 @@ type FilterTab = 'All' | 'Frontend' | 'Fullstack' | 'AI & Data' | 'Enterprise';
   standalone: true,
   imports: [CommonModule, MatCardModule, MatButtonModule, MatChipsModule, MatIconModule,
             ScrollRevealDirective, MatDialogModule, TiltDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section id="projects" class="section-padding container">
       <h2 class="section-title">
@@ -57,7 +58,7 @@ type FilterTab = 'All' | 'Frontend' | 'Fullstack' | 'AI & Data' | 'Enterprise';
                     appTilt>
             <div class="project-image-wrapper">
               @if (p.image) {
-                <img [src]="p.image" [alt]="p.title" class="project-img">
+                <img [src]="p.image" [alt]="p.title" class="project-img" loading="lazy" decoding="async">
               } @else {
                 <div class="project-preview-placeholder" [class]="p.title === 'ZigTravel' ? 'zigtravel-bg' : 'resume-master-bg'">
                   <mat-icon>{{ p.title === 'ZigTravel' ? 'flight_takeoff' : 'description' }}</mat-icon>

@@ -1,5 +1,5 @@
 
-import { Component, HostListener, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'app-back-to-top',
   standalone: true,
   imports: [CommonModule, MatIconModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <button class="back-top" [class.visible]="show" (click)="scrollToTop()" aria-label="Back to top">
       <span class="ring r1"></span>
@@ -80,7 +81,10 @@ export class BackToTopComponent {
   show = false;
   private ticking = false;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   @HostListener('window:scroll')
   onScroll(): void {
@@ -89,6 +93,7 @@ export class BackToTopComponent {
     requestAnimationFrame(() => {
       this.show = window.scrollY > 400;
       this.ticking = false;
+      this.cdr.markForCheck();
     });
   }
 

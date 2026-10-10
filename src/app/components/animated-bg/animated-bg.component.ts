@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ElementRef, HostListener, NgZone, OnDestroy, OnInit, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 interface Particle {
@@ -16,6 +16,7 @@ interface Particle {
   selector: 'app-animated-bg',
   standalone: true,
   imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <canvas #bgCanvas class="animated-canvas"></canvas>
     <div class="glow-orb orb-1"></div>
@@ -221,6 +222,14 @@ interface Particle {
       0%   { transform: rotate(15deg) translateY(0)   scale(1);    opacity: 0.4; }
       40%  { transform: rotate(30deg) translateY(-25px) scale(1.05); opacity: 0.7; }
       100% { transform: rotate(0deg)  translateY(18px)  scale(0.95); opacity: 0.5; }
+    }
+
+    /* Reduce GPU-heavy blur on mobile — halves compositor layer cost */
+    @media (max-width: 768px) {
+      .glow-orb { filter: blur(45px); }
+      .aurora-layer { filter: blur(35px); will-change: auto; }
+      .grid-overlay { animation: none; }
+      .floating-shape { display: none; }
     }
   `]
 })

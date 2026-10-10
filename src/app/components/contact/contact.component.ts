@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'app-contact',
   standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section id="contact" class="section-padding container">
       <div class="contact-wrap">

@@ -52,9 +52,21 @@ import { BlogComponent }          from './components/blog/blog.component';
       <app-experience></app-experience>
       <app-skills></app-skills>
       <app-education></app-education>
-      <app-testimonials></app-testimonials>
-      <app-certifications></app-certifications>
-      <app-blog></app-blog>
+      @defer (on viewport; prefetch on idle) {
+        <app-testimonials></app-testimonials>
+      } @placeholder {
+        <section id="testimonials" style="min-height:600px"></section>
+      }
+      @defer (on viewport; prefetch on idle) {
+        <app-certifications></app-certifications>
+      } @placeholder {
+        <section id="certifications" style="min-height:700px"></section>
+      }
+      @defer (on viewport; prefetch on idle) {
+        <app-blog></app-blog>
+      } @placeholder {
+        <section id="blog" style="min-height:600px"></section>
+      }
       <app-contact></app-contact>
     </main>
     <app-footer></app-footer>

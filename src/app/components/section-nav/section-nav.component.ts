@@ -1,11 +1,12 @@
 
-import { Component, NgZone, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, NgZone, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-section-nav',
   standalone: true,
   imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <nav class="section-nav" aria-label="Page sections">
       @for (section of sections; track section.id; let i = $index) {
@@ -109,14 +110,15 @@ export class SectionNavComponent implements OnInit, OnDestroy {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     this.observer = new IntersectionObserver(entries => {
       entries.forEach(e => {
-        if (e.isIntersecting) this.ngZone.run(() => { this.activeSection = e.target.id; });
+        if (e.isIntersecting) this.ngZone.run(() => { this.activeSection = e.target.id; this.cdr.markForCheck(); });
       });
     }, { threshold: 0.35 });
 

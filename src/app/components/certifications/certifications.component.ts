@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
@@ -17,6 +17,7 @@ interface Cert {
   selector: 'app-certifications',
   standalone: true,
   imports: [CommonModule, MatIconModule, ScrollRevealDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section id="certifications" class="section-padding container">
       <div class="section-head">

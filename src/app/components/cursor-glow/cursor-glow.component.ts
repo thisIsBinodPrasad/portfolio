@@ -1,10 +1,11 @@
 
-import { Component, HostListener, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, ChangeDetectionStrategy, HostListener, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-cursor-glow',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="cursor-glow"
          [style.left.px]="x"

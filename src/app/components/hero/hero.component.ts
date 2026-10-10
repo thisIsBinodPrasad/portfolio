@@ -1,5 +1,5 @@
 
-import { Component, AfterViewInit, OnDestroy, ChangeDetectorRef, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,6 +9,7 @@ import { TypingEffectDirective } from '../../directives/typing-effect.directive'
   selector: 'app-hero',
   standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule, TypingEffectDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section id="about" class="hero-section container">
       <div class="content">
@@ -67,7 +68,7 @@ import { TypingEffectDirective } from '../../directives/typing-effect.directive'
           <div class="orbit-ring orbit-1"></div>
           <div class="orbit-ring orbit-2"></div>
           <div class="orbit-ring orbit-3"></div>
-          <img src="assets/images/profile.jpg" alt="Binod Prasad" class="profile-img">
+          <img src="assets/images/profile.jpg" alt="Binod Prasad" class="profile-img" fetchpriority="high" decoding="async">
           <div class="floating-badge badge-1">
             <mat-icon>code</mat-icon> Angular & RxJS
           </div>
@@ -531,7 +532,9 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
         clearInterval(this.intervalId!);
         this.displayedYears    = targetYears;
         this.displayedProjects = targetProjects;
+        this.cdr.markForCheck();
       }
+      this.cdr.markForCheck();
     }, stepMs);
   }
 }

@@ -1,11 +1,12 @@
 
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-page-loader',
   standalone: true,
   imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (visible) {
       <div class="loader-wrap" [class.fade-out]="fadeOut">
@@ -159,7 +160,10 @@ export class PageLoaderComponent implements OnInit {
   fadeOut = false;
   progress = 0;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
@@ -169,12 +173,15 @@ export class PageLoaderComponent implements OnInit {
     const interval = setInterval(() => {
       p += p < 55 ? 4 : p < 80 ? 2 : p < 93 ? 1 : 0.5;
       this.progress = Math.min(p, 99);
+      this.cdr.markForCheck();
       if (p >= 100) {
         clearInterval(interval);
         this.progress = 100;
+        this.cdr.markForCheck();
         setTimeout(() => {
           this.fadeOut = true;
-          setTimeout(() => { this.visible = false; }, 820);
+          this.cdr.markForCheck();
+          setTimeout(() => { this.visible = false; this.cdr.markForCheck(); }, 820);
         }, 180);
       }
     }, 22);

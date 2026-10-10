@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,6 +15,7 @@ interface Education {
     selector: 'app-education',
     standalone: true,
     imports: [CommonModule, MatCardModule, MatIconModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './education.component.html',
     styleUrl: './education.component.scss'
 })
