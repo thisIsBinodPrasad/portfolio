@@ -163,8 +163,7 @@ export class PageLoaderComponent implements OnInit {
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
-      this.visible = false;
-      return;
+      return; // keep visible=true so SSR HTML includes the loader covering the content
     }
     let p = 0;
     const interval = setInterval(() => {
