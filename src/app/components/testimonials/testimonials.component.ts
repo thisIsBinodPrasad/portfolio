@@ -217,6 +217,14 @@ export class TestimonialsComponent {
       companyColor: '#14b8a6',
       initials: 'SM',
       text: 'I had the pleasure of working with Binod on multiple product initiatives, and he stood out as one of the most technically sharp and reliable developers I\'ve collaborated with. His command of the Angular ecosystem is exceptional, and his ability to deliver polished, high-performance UIs on tight deadlines is impressive. Beyond the technical skills, he brings genuine enthusiasm and clear communication to every project. Highly recommend.'
+    },
+    {
+      name: 'Gaurav Joshi',
+      role: 'Senior Consultant',
+      company: 'EY',
+      companyColor: '#ffe600',
+      initials: 'GJ',
+      text: 'Binod consistently raises the bar on any team he joins. I\'ve seen him turn ambiguous requirements into clean, maintainable Angular solutions faster than anyone I\'ve worked with. What sets him apart is his ability to bridge the gap between frontend craftsmanship and backend thinking — he asks the right architectural questions early and saves the team weeks of rework. His recent work integrating AI features into a live product was particularly impressive. I wouldn\'t hesitate to recommend Binod for any senior engineering role.'
     }
   ];
 }

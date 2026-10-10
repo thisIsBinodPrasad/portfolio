@@ -227,3 +227,21 @@ body {
   background: transparent !important;
   box-shadow: none !important;
 }
+
+/* Blog detail dialog — strip Material's default container chrome */
+.blog-detail-panel .mat-mdc-dialog-container {
+  padding: 0 !important;
+}
+
+.blog-detail-panel .mat-mdc-dialog-container .mat-mdc-dialog-surface {
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.06) !important;
+}
+
+.blog-detail-panel .mat-mdc-dialog-content {
+  padding: 0 !important;
+  max-height: 62vh !important;
+}
