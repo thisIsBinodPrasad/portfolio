@@ -13,7 +13,6 @@ import { AnimatedBgComponent }    from './components/animated-bg/animated-bg.com
 import { PageLoaderComponent }    from './components/page-loader/page-loader.component';
 import { CursorGlowComponent }    from './components/cursor-glow/cursor-glow.component';
 import { BackToTopComponent }     from './components/back-to-top/back-to-top.component';
-import { SectionNavComponent }    from './components/section-nav/section-nav.component';
 import { TestimonialsComponent }  from './components/testimonials/testimonials.component';
 import { CertificationsComponent} from './components/certifications/certifications.component';
 import { BlogComponent }          from './components/blog/blog.component';
@@ -36,7 +35,6 @@ import { MusicPlayerComponent }   from './components/music-player/music-player.c
     PageLoaderComponent,
     CursorGlowComponent,
     BackToTopComponent,
-    SectionNavComponent,
     TestimonialsComponent,
     CertificationsComponent,
     BlogComponent,
@@ -46,7 +44,6 @@ import { MusicPlayerComponent }   from './components/music-player/music-player.c
     <app-page-loader></app-page-loader>
     <app-cursor-glow></app-cursor-glow>
     <app-animated-bg></app-animated-bg>
-    <app-section-nav></app-section-nav>
     <app-music-player></app-music-player>
     <app-header></app-header>
     <main>
