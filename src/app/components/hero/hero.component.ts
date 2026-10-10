@@ -19,7 +19,7 @@ import { TypingEffectDirective } from '../../directives/typing-effect.directive'
             <span class="ripple r2"></span>
             <span class="ripple r3"></span>
           </span>
-          Consultant @ Deloitte · Open to Collaborations
+          SDE II @ Deloitte · Open to Collaborations
         </div>
 
         <h1 class="greeting anim-item anim-d1">
@@ -32,7 +32,7 @@ import { TypingEffectDirective } from '../../directives/typing-effect.directive'
 
         <p class="bio anim-item anim-d3">
           I build high-performance web applications using Angular, .NET Core, Python, and Node.js.
-          Currently transforming digital experiences as a Consultant at Deloitte.
+          Currently transforming digital experiences as an SDE II at Deloitte.
         </p>
 
         <div class="hero-stats anim-item anim-d4">

@@ -36,6 +36,9 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
                       <span class="live-dot"></span> Current
                     </span>
                   }
+                  @if (job.promoted) {
+                    <span class="promoted-badge">↑ Promoted</span>
+                  }
                 </div>
                 <span class="company">{{ job.company }}</span>
                 <span class="period">{{ job.period }}</span>
@@ -249,6 +252,20 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
           50%       { opacity: 0.5; box-shadow: none; }
         }
 
+        .promoted-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          font-size: 0.72rem;
+          font-weight: 700;
+          color: #f59e0b;
+          background: rgba(245, 158, 11, 0.1);
+          border: 1px solid rgba(245, 158, 11, 0.3);
+          padding: 3px 10px;
+          border-radius: 12px;
+          letter-spacing: 0.5px;
+        }
+
         .company {
           display: block;
           color: var(--primary-color);
@@ -286,12 +303,23 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
 export class ExperienceComponent implements AfterViewInit {
   lineVisible = false;
 
-  jobs: { role: string; company: string; period: string; points: string[]; current?: boolean }[] = [
+  jobs: { role: string; company: string; period: string; points: string[]; current?: boolean; promoted?: boolean }[] = [
+    {
+      role: 'SDE II',
+      company: 'Deloitte',
+      period: 'June 2026 – Present',
+      current: true,
+      promoted: true,
+      points: [
+        'Leading Angular architecture for enterprise-scale web applications, driving frontend performance.',
+        'Expanded into Java and AWS — building backend services and cloud-deployed solutions.',
+        'Driving sprint deliverables and technical decisions through Agile practices.'
+      ]
+    },
     {
       role: 'Consultant',
       company: 'Deloitte',
-      period: 'Nov 2025 – Present',
-      current: true,
+      period: 'Nov 2025 – May 2026',
       points: [
         'Built scalable and reusable Angular components for dynamic web applications, optimizing performance.',
         'Participated in Agile ceremonies, improving sprint deliverables through iterative development practices.',

@@ -11,6 +11,7 @@ interface Testimonial {
   companyColor: string;
   initials: string;
   text: string;
+  linkedin?: string;
 }
 
 @Component({
@@ -44,6 +45,13 @@ interface Testimonial {
                 <span class="author-role">{{ t.role }}</span>
                 <span class="author-company" [style.color]="t.companyColor">{{ t.company }}</span>
               </div>
+              @if (t.linkedin) {
+                <a class="li-link" [href]="t.linkedin" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                </a>
+              }
               <mat-icon class="verified-icon">verified</mat-icon>
             </div>
           </div>
@@ -192,6 +200,26 @@ interface Testimonial {
       }
     }
 
+    .li-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px; height: 30px;
+      border-radius: 6px;
+      background: rgba(10, 102, 194, 0.12);
+      border: 1px solid rgba(10, 102, 194, 0.3);
+      color: #0a66c2;
+      text-decoration: none;
+      flex-shrink: 0;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+
+      &:hover {
+        background: rgba(10, 102, 194, 0.22);
+        border-color: rgba(10, 102, 194, 0.6);
+        transform: translateY(-1px);
+      }
+    }
+
     .verified-icon {
       font-size: 20px; width: 20px; height: 20px;
       color: #3b82f6;
@@ -203,27 +231,30 @@ interface Testimonial {
 export class TestimonialsComponent {
   testimonials: Testimonial[] = [
     {
-      name: 'Navjeet Bisht',
-      role: 'Software Engineer',
+      name: 'Navjeet Singh',
+      role: 'Application Developer',
       company: 'IBM',
       companyColor: '#0f62fe',
-      initials: 'NB',
+      initials: 'NS',
+      linkedin: 'https://www.linkedin.com/in/navjeet-singh-705407232/',
       text: 'Working alongside Binod was an enriching experience. He consistently demonstrated deep expertise in Angular and TypeScript, translating complex requirements into clean, scalable solutions. His commitment to code quality, proactive problem-solving, and willingness to mentor teammates made a noticeable difference to our team\'s velocity and output. I\'d highly recommend Binod to any organization looking for a senior full-stack developer.'
     },
     {
       name: 'Siddharth Mall',
-      role: 'Software Engineer',
+      role: 'Part Leader - Generative AI',
       company: 'HL Mando',
       companyColor: '#14b8a6',
       initials: 'SM',
+      linkedin: 'https://www.linkedin.com/in/siddarthvadr/',
       text: 'I had the pleasure of working with Binod on multiple product initiatives, and he stood out as one of the most technically sharp and reliable developers I\'ve collaborated with. His command of the Angular ecosystem is exceptional, and his ability to deliver polished, high-performance UIs on tight deadlines is impressive. Beyond the technical skills, he brings genuine enthusiasm and clear communication to every project. Highly recommend.'
     },
     {
       name: 'Gaurav Joshi',
-      role: 'Senior Consultant',
+      role: 'Associate Project Manager',
       company: 'EY',
       companyColor: '#ffe600',
       initials: 'GJ',
+      linkedin: 'https://www.linkedin.com/in/gaurav01joshi02/',
       text: 'Binod consistently raises the bar on any team he joins. I\'ve seen him turn ambiguous requirements into clean, maintainable Angular solutions faster than anyone I\'ve worked with. What sets him apart is his ability to bridge the gap between frontend craftsmanship and backend thinking — he asks the right architectural questions early and saves the team weeks of rework. His recent work integrating AI features into a live product was particularly impressive. I wouldn\'t hesitate to recommend Binod for any senior engineering role.'
     }
   ];
