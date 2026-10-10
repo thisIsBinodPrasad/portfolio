@@ -288,14 +288,14 @@ export class ExperienceComponent implements AfterViewInit {
 
   jobs: { role: string; company: string; period: string; points: string[]; current?: boolean }[] = [
     {
-      role: 'SDE 2',
+      role: 'Consultant',
       company: 'Deloitte',
       period: 'Nov 2025 – Present',
       current: true,
       points: [
-        'Leading Angular architecture for enterprise-scale web applications.',
-        'Driving sprint deliverables and technical decisions through Agile practices.',
-        'Mentoring junior developers and establishing frontend best practices.'
+        'Built scalable and reusable Angular components for dynamic web applications, optimizing performance.',
+        'Participated in Agile ceremonies, improving sprint deliverables through iterative development practices.',
+        'Built and deployed Angular-based web solutions for enterprise clients.'
       ]
     },
     {

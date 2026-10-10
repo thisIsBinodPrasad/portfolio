@@ -19,7 +19,7 @@ import { TypingEffectDirective } from '../../directives/typing-effect.directive'
             <span class="ripple r2"></span>
             <span class="ripple r3"></span>
           </span>
-          SDE 2 @ Deloitte · Open to Collaborations
+          Consultant @ Deloitte · Open to Collaborations
         </div>
 
         <h1 class="greeting anim-item anim-d1">
@@ -32,7 +32,7 @@ import { TypingEffectDirective } from '../../directives/typing-effect.directive'
 
         <p class="bio anim-item anim-d3">
           I build high-performance web applications using Angular, .NET Core, Python, and Node.js.
-          Currently transforming digital experiences as an SDE 2 at Deloitte.
+          Currently transforming digital experiences as a Consultant at Deloitte.
         </p>
 
         <div class="hero-stats anim-item anim-d4">
@@ -56,7 +56,7 @@ import { TypingEffectDirective } from '../../directives/typing-effect.directive'
           <a mat-raised-button color="primary" href="#projects" class="glow-btn">
             <mat-icon>work</mat-icon> View My Work
           </a>
-          <a mat-stroked-button href="assets/Prasad_BinodCV.pdf" target="_blank" class="outline-btn">
+          <a mat-stroked-button href="assets/Prasad_BinodCV.pdf" download="Prasad_BinodCV.pdf" class="outline-btn">
             <mat-icon>download</mat-icon> Download Resume
           </a>
         </div>
