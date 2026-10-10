@@ -216,18 +216,18 @@ export class MusicPlayerComponent implements OnInit, OnDestroy {
     if (this.isPlaying) {
       this.audio.pause();
       this.isPlaying = false;
-      this.cdr.markForCheck();
     } else {
-      this.playAudio();
+      this.isPlaying = true;
+      this.audio.play().catch(() => { this.isPlaying = false; this.cdr.markForCheck(); });
     }
+    this.cdr.markForCheck();
   }
 
   private playAudio(): void {
-    if (!this.audio) return;
-    this.audio.play().then(() => {
-      this.isPlaying = true;
-      this.cdr.markForCheck();
-    }).catch(() => {});
+    if (!this.audio || this.isPlaying) return;
+    this.isPlaying = true;
+    this.cdr.markForCheck();
+    this.audio.play().catch(() => { this.isPlaying = false; this.cdr.markForCheck(); });
   }
 
   private removeListeners(): void {
