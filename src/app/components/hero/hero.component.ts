@@ -10,7 +10,7 @@ import { TypingEffectDirective } from '../../directives/typing-effect.directive'
   standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule, TypingEffectDirective],
   template: `
-    <section class="hero-section container">
+    <section id="about" class="hero-section container">
       <div class="content">
         <div class="role-chip anim-item anim-d0">
           <span class="status-dot">
@@ -492,11 +492,22 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     if (this.intervalId) clearInterval(this.intervalId);
   }
 
+  private yearsOfExperience(): number {
+    const start = new Date(2020, 1, 1); // February 2020
+    const now = new Date();
+    let years = now.getFullYear() - start.getFullYear();
+    const monthDiff = now.getMonth() - start.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && now.getDate() < start.getDate())) {
+      years--;
+    }
+    return years;
+  }
+
   private runCounter(): void {
     const duration = 1600;
     const steps = 50;
     const stepMs = duration / steps;
-    const targetYears = 5;
+    const targetYears = this.yearsOfExperience();
     const targetProjects = 10;
     let current = 0;
 
