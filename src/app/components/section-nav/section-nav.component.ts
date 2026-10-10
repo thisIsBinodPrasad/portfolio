@@ -1,5 +1,5 @@
 
-import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, NgZone, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
@@ -107,12 +107,17 @@ export class SectionNavComponent implements OnInit, OnDestroy {
   activeSection = 'about';
   private observer!: IntersectionObserver;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private ngZone: NgZone
+  ) {}
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     this.observer = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) this.activeSection = e.target.id; });
+      entries.forEach(e => {
+        if (e.isIntersecting) this.ngZone.run(() => { this.activeSection = e.target.id; });
+      });
     }, { threshold: 0.35 });
 
     this.sections.forEach(s => {

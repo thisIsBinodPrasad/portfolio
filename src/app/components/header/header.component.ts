@@ -1,6 +1,6 @@
 
 import {
-  Component, HostListener, inject, Inject, PLATFORM_ID,
+  Component, HostListener, inject, Inject, NgZone, PLATFORM_ID,
   OnInit, OnDestroy
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
@@ -354,13 +354,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private masterGain: GainNode | null = null;
   private scrollTicking = false;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private ngZone: NgZone
+  ) {}
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
     this.observer = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) this.activeSection = e.target.id; });
+      entries.forEach(e => {
+        if (e.isIntersecting) this.ngZone.run(() => { this.activeSection = e.target.id; });
+      });
     }, { threshold: 0.35 });
 
     ['about', 'experience', 'projects', 'skills', 'contact'].forEach(id => {

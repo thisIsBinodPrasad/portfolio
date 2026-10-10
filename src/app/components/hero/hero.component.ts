@@ -97,8 +97,6 @@ import { TypingEffectDirective } from '../../directives/typing-effect.directive'
       min-height: 100vh;
       padding-top: 80px;
       position: relative;
-      overflow: hidden;
-
       @media (max-width: 960px) {
         flex-direction: column-reverse;
         text-align: center;

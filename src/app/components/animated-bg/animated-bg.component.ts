@@ -56,7 +56,6 @@ interface Particle {
       border-radius: 50%;
       filter: blur(90px);
       animation: floatOrb 20s ease-in-out infinite alternate;
-      will-change: transform;
     }
 
     .orb-1 {
